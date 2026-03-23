@@ -1,0 +1,179 @@
+{
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "skip": "Skip",
+    "continue": "Continue",
+    "back": "Back",
+    "done": "Done",
+    "later": "Later",
+    "settings": "Settings",
+    "share": "Share",
+    "delete": "Delete",
+    "today": "Today",
+    "yesterday": "Yesterday"
+  },
+  "onboarding": {
+    "welcome": {
+      "title": "Hey, this is Waygo",
+      "subtitle": "Collect walks, moods, and little moments into a beautiful rhythm.",
+      "cta": "Get Started"
+    },
+    "location": {
+      "title": "Allow Location",
+      "subtitle": "Needed to record routes and adapt the atmosphere to weather.",
+      "allow": "Allow",
+      "later": "Later",
+      "denied": "Without location, routes won't be saved, but mood and day cards are still available."
+    },
+    "notifications": {
+      "title": "Gentle Reminders",
+      "subtitle": "To keep your rhythm, no pressure.",
+      "enable": "Enable",
+      "later": "Not now"
+    }
+  },
+  "home": {
+    "greeting": {
+      "morning": "Good morning",
+      "day": "Good afternoon",
+      "evening": "Good evening",
+      "night": "Good night"
+    },
+    "heroCard": {
+      "title": "Your Day",
+      "empty": "The day is just starting"
+    },
+    "moveCard": {
+      "label": "Movement",
+      "before": "Go for a short walk?",
+      "after": "{{duration}} min · {{distance}} km · route saved"
+    },
+    "moodCard": {
+      "label": "Mood",
+      "title": "How are you right now?"
+    },
+    "rhythm": {
+      "label": "Rhythm",
+      "streak": "Streak: {{count}} days",
+      "goal": "Goal: {{current}}/{{target}}"
+    },
+    "memoryTeaser": "Yesterday's day card",
+    "tip": "Try a new route through the park",
+    "weekBar": "{{percent}}%"
+  },
+  "walk": {
+    "start": "Start Walk",
+    "pause": "Pause",
+    "resume": "Resume",
+    "finish": "Finish",
+    "hint": "Breathe easy, just walk at your own pace",
+    "active": "Walk in progress",
+    "save": {
+      "title": "Save this route?",
+      "duration": "{{value}} min",
+      "distance": "{{value}} km",
+      "speed": "{{value}} km/h",
+      "calories": "{{value}} kcal",
+      "steps": "{{value}} steps",
+      "elevation": "+{{value}} m",
+      "cta": "Save Moment",
+      "skip": "Skip"
+    }
+  },
+  "mood": {
+    "title": "How are you right now?",
+    "note": "A few words about your day...",
+    "photo": "Add Photo",
+    "save": "Save Moment",
+    "skip": "Skip",
+    "noPhoto": "No photo needed. Your moment is already valuable.",
+    "moods": {
+      "calm": "Calm",
+      "light": "Light",
+      "focused": "Focused",
+      "tired": "Tired",
+      "inspired": "Inspired",
+      "reflective": "Reflective"
+    }
+  },
+  "dayCard": {
+    "share": "Share",
+    "archive": "Archive"
+  },
+  "recap": {
+    "title": "Your Week",
+    "walks": "{{count}} walks",
+    "distance": "{{value}} km",
+    "streak": "Streak {{count}} days",
+    "bestRoutes": "Best routes this week",
+    "moodRhythm": "Mood rhythm",
+    "photoMoment": "Photo moment of the week",
+    "memorable": "What stood out",
+    "save": "Save Recap"
+  },
+  "archive": {
+    "title": "Archive",
+    "days": "Days",
+    "weeks": "Weeks"
+  },
+  "habits": {
+    "title": "Habits",
+    "add": "Add Habit",
+    "presets": {
+      "water": "Water",
+      "meditation": "Meditation",
+      "reading": "Reading",
+      "stretching": "Stretching",
+      "no-phone": "No Phone",
+      "gratitude": "Gratitude"
+    }
+  },
+  "sleep": {
+    "title": "Sleep",
+    "bedTime": "Bed time",
+    "wakeTime": "Wake time",
+    "quality": "How did you sleep?",
+    "qualities": {
+      "great": "Great",
+      "ok": "OK",
+      "meh": "Meh",
+      "bad": "Bad"
+    }
+  },
+  "achievements": {
+    "title": "Achievements",
+    "unlocked": "Unlocked",
+    "locked": "Locked",
+    "premium": "Premium"
+  },
+  "settings": {
+    "title": "Settings",
+    "profile": "Profile",
+    "name": "Name",
+    "weeklyGoal": "Weekly goal",
+    "atmosphere": "Atmosphere",
+    "adaptiveAmbiance": "Adaptive Ambiance",
+    "adaptiveDesc": "Change atmosphere based on weather and time of day",
+    "permissions": "Permissions",
+    "location": "Location",
+    "notifications": "Gentle Reminders",
+    "data": "Data",
+    "export": "Export Data",
+    "deleteAccount": "Delete Account",
+    "about": "About",
+    "language": "Language"
+  },
+  "edge": {
+    "noLocation": "Walk without route — mood and day cards are available",
+    "noInternet": "Offline mode. Data will be saved locally.",
+    "noWalks": "The week is just starting. One walk will create rhythm.",
+    "firstDay": "Welcome! Start with a short walk.",
+    "streakRisk": "One step — and the streak continues"
+  },
+  "notifications": {
+    "walkReminder": "Nice evening for a short walk 🌤",
+    "weeklyRecap": "Your week is ready — take a look 📋",
+    "streakRisk": "One step — and the streak continues"
+  }
+}
