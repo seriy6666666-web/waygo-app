@@ -1,6 +1,7 @@
 import React from 'react';
 import { Platform, StyleSheet, Text, View } from 'react-native';
 import { useThemeStore } from '../../stores/useThemeStore';
+import { MapErrorBoundary } from '../ui/MapErrorBoundary';
 import type { RoutePoint } from '../../types';
 
 let MapViewComponent: any = null;
@@ -37,6 +38,7 @@ export function WalkMapView({ route, isLive = false, style }: Props) {
           <Text style={{ color: colors.textSecondary, fontSize: 14 }}>Map (native only)</Text>
         </View>
       ) : (
+      <MapErrorBoundary>
       <MapViewComponent
         style={styles.map}
         provider={Platform.OS === 'android' ? PROVIDER_GOOGLE : undefined}
@@ -61,6 +63,7 @@ export function WalkMapView({ route, isLive = false, style }: Props) {
           />
         )}
       </MapViewComponent>
+      </MapErrorBoundary>
       )}
     </View>
   );

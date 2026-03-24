@@ -1,4 +1,6 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { create } from 'zustand';
+import { persist, createJSONStorage } from 'zustand/middleware';
 import type { UserSettings } from '../types';
 import { getTodayDate } from '../utils/date';
 
@@ -12,7 +14,7 @@ interface SettingsState extends UserSettings {
   useFreeze: () => boolean;
 }
 
-export const useSettingsStore = create<SettingsState>((set, get) => ({
+export const useSettingsStore = create<SettingsState>()(persist((set, get) => ({
   hasOnboarded: false,
   name: '',
   weeklyGoal: 5,
@@ -34,4 +36,7 @@ export const useSettingsStore = create<SettingsState>((set, get) => ({
     set({ freezesLeft: freezesLeft - 1, frozenDates: [...frozenDates, today] });
     return true;
   },
+}), {
+  name: 'waygo-settings',
+  storage: createJSONStorage(() => AsyncStorage),
 }));

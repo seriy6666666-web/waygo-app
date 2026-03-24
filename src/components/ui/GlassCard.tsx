@@ -16,13 +16,12 @@ export function GlassCard({ children, style, intensity = 'medium', noPadding }: 
   const isNight = timeBucket === 'night';
 
   const opacityMap = {
-    soft: isNight ? 0.08 : 0.55,
-    medium: isNight ? 0.12 : 0.7,
-    strong: isNight ? 0.18 : 0.85,
-  };
+      soft: isNight ? 0.12 : 0.65,
+      medium: isNight ? 0.18 : 0.82,
+      strong: isNight ? 0.25 : 0.92,
+    };
 
-  const borderOpacity = isNight ? 0.12 : 0.35;
-
+    const borderOpacity = isNight ? 0.18 : 0.5;
   return (
     <View
       style={[

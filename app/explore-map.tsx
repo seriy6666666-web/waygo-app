@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeArea } from '../src/components/layout/SafeArea';
+import { MapErrorBoundary } from '../src/components/ui/MapErrorBoundary';
 import { getAllWalkRoutes } from '../src/services/database';
 import { useThemeStore } from '../src/stores/useThemeStore';
 import { spacing, typography } from '../src/theme/tokens';
@@ -83,6 +84,7 @@ export default function ExploreMapScreen() {
             <Text style={{ color: colors.textSecondary, fontSize: 14 }}>Map (native only)</Text>
           </View>
         ) : (
+        <MapErrorBoundary>
         <MapView
           style={styles.map}
           provider={Platform.OS === 'android' ? PROVIDER_GOOGLE : undefined}
@@ -119,6 +121,7 @@ export default function ExploreMapScreen() {
             />
           ))}
         </MapView>
+        </MapErrorBoundary>
         )}
 
         {/* Stats overlay */}

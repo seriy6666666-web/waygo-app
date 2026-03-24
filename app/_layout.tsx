@@ -7,8 +7,9 @@ import {
 import { useFonts } from 'expo-font';
 import { Stack, useRouter, useSegments } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import 'react-native-reanimated';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { Toast } from '../src/components/ui/Toast';
 import '../src/i18n';
@@ -40,20 +41,38 @@ export default function RootLayout() {
 
   if (!loaded && !error) return null;
 
-  return <RootLayoutNav />;
+  return (
+    <SafeAreaProvider>
+      <RootLayoutNav />
+    </SafeAreaProvider>
+  );
 }
 
 function RootLayoutNav() {
   const hasOnboarded = useSettingsStore((s) => s.hasOnboarded);
   const segments = useSegments();
   const router = useRouter();
+  const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
+    // Wait for Zustand persist to rehydrate from AsyncStorage
+    const unsub = useSettingsStore.persist.onFinishHydration(() => {
+      setHydrated(true);
+    });
+    // If already hydrated (e.g. sync storage)
+    if (useSettingsStore.persist.hasHydrated()) {
+      setHydrated(true);
+    }
+    return () => unsub();
+  }, []);
+
+  useEffect(() => {
+    if (!hydrated) return;
     const inOnboarding = segments[0] === 'onboarding';
     if (!hasOnboarded && !inOnboarding) {
       router.replace('/onboarding/welcome');
     }
-  }, [hasOnboarded, segments]);
+  }, [hasOnboarded, segments, hydrated]);
 
   return (
     <>
