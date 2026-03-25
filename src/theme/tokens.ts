@@ -71,10 +71,11 @@ export const tokens = {
 } as const;
 
 export const radius = {
-  sm: 12,
-  md: 16,
-  lg: 20,
+  sm: 14,
+  md: 18,
+  lg: 24,
   xl: 28,
+  card: 28,
   sheet: 32,
   pill: 999,
 } as const;
@@ -90,24 +91,30 @@ export const spacing = {
 
 export const shadows = {
   card: {
-    shadowColor: '#2A3138',
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.08,
-    shadowRadius: 28,
-    elevation: 4,
+    shadowColor: '#1A2030',
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.10,
+    shadowRadius: 32,
+    elevation: 8,
   },
   cardSoft: {
-    shadowColor: '#2A3138',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.05,
-    shadowRadius: 18,
-    elevation: 2,
+    shadowColor: '#1A2030',
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.06,
+    shadowRadius: 20,
+    elevation: 4,
   },
   hero: {
-    shadowColor: '#2A3138',
-    shadowOffset: { width: 0, height: 14 },
-    shadowOpacity: 0.10,
-    shadowRadius: 40,
+    shadowColor: '#1A2030',
+    shadowOffset: { width: 0, height: 16 },
+    shadowOpacity: 0.14,
+    shadowRadius: 44,
+    elevation: 10,
+  },
+  glow: {
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.35,
+    shadowRadius: 16,
     elevation: 6,
   },
 } as const;

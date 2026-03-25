@@ -1,4 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, View } from 'react-native';
@@ -23,9 +24,14 @@ export function MoodCard({ currentMood, onSelectMood }: MoodCardProps) {
   return (
     <GlassCard>
       <View style={styles.header}>
-        <View style={[styles.iconBadge, { backgroundColor: colors.accentMood + '20' }]}>
+        <LinearGradient
+          colors={[colors.accentMood + '30', colors.accentMood + '10']}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={styles.iconBadge}
+        >
           <Ionicons name="happy" size={18} color={colors.accentMood} />
-        </View>
+        </LinearGradient>
         <Text style={[styles.label, { color: colors.textSecondary, fontFamily: typography.family.semibold }]}>
           {t('home.moodCard.label') || 'Настроение'}
         </Text>
@@ -56,9 +62,9 @@ const styles = StyleSheet.create({
     marginBottom: spacing.md,
   },
   iconBadge: {
-    width: 36,
-    height: 36,
-    borderRadius: 12,
+    width: 40,
+    height: 40,
+    borderRadius: 14,
     alignItems: 'center',
     justifyContent: 'center',
   },

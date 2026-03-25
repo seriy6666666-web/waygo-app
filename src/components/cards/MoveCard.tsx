@@ -1,9 +1,11 @@
 import { Ionicons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, View } from 'react-native';
 import { useThemeStore } from '../../stores/useThemeStore';
 import { spacing, typography } from '../../theme/tokens';
+import { AnimatedNumber } from '../ui/AnimatedNumber';
 import { Button } from '../ui/Button';
 import { GlassCard } from '../ui/GlassCard';
 
@@ -21,9 +23,14 @@ export function MoveCard({ hasWalkToday, durationMin, distanceKm, onStartWalk }:
   return (
     <GlassCard>
       <View style={styles.header}>
-        <View style={[styles.iconBadge, { backgroundColor: colors.accent + '18' }]}>
+        <LinearGradient
+          colors={[colors.accent + '25', colors.accentBright + '15']}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={styles.iconBadge}
+        >
           <Ionicons name="footsteps" size={18} color={colors.accent} />
-        </View>
+        </LinearGradient>
         <Text style={[styles.label, { color: colors.textSecondary, fontFamily: typography.family.semibold }]}>
           {t('home.moveCard.label') || 'Движение'}
         </Text>
@@ -31,18 +38,21 @@ export function MoveCard({ hasWalkToday, durationMin, distanceKm, onStartWalk }:
       {hasWalkToday ? (
         <View style={styles.stats}>
           <View style={styles.statItem}>
-            <Text style={[styles.statValue, { color: colors.textPrimary, fontFamily: typography.family.bold }]}>
-              {durationMin}
-            </Text>
+            <AnimatedNumber
+              value={durationMin ?? 0}
+              style={[styles.statValue, { color: colors.accent, fontFamily: typography.family.bold }]}
+            />
             <Text style={[styles.statUnit, { color: colors.textSecondary, fontFamily: typography.family.regular }]}>
               мин
             </Text>
           </View>
           <View style={[styles.statDivider, { backgroundColor: colors.stroke }]} />
           <View style={styles.statItem}>
-            <Text style={[styles.statValue, { color: colors.textPrimary, fontFamily: typography.family.bold }]}>
-              {distanceKm?.toFixed(1)}
-            </Text>
+            <AnimatedNumber
+              value={distanceKm ?? 0}
+              decimals={1}
+              style={[styles.statValue, { color: colors.accent, fontFamily: typography.family.bold }]}
+            />
             <Text style={[styles.statUnit, { color: colors.textSecondary, fontFamily: typography.family.regular }]}>
               км
             </Text>
@@ -68,9 +78,9 @@ const styles = StyleSheet.create({
     marginBottom: spacing.md,
   },
   iconBadge: {
-    width: 36,
-    height: 36,
-    borderRadius: 12,
+    width: 40,
+    height: 40,
+    borderRadius: 14,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -90,7 +100,7 @@ const styles = StyleSheet.create({
     gap: 4,
   },
   statValue: {
-    fontSize: 32,
+    fontSize: 36,
   },
   statUnit: {
     fontSize: typography.size.caption,

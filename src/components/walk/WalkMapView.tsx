@@ -1,8 +1,17 @@
 import React from 'react';
 import { Platform, StyleSheet, Text, View } from 'react-native';
+import { MAP_STYLE_DARK, MAP_STYLE_EVENING, MAP_STYLE_LIGHT, MAP_STYLE_MORNING } from '../../constants/mapStyles';
 import { useThemeStore } from '../../stores/useThemeStore';
-import { MapErrorBoundary } from '../ui/MapErrorBoundary';
+import type { TimeBucket } from '../../types';
 import type { RoutePoint } from '../../types';
+import { MapErrorBoundary } from '../ui/MapErrorBoundary';
+
+const MAP_STYLES: Record<TimeBucket, object[]> = {
+  morning: MAP_STYLE_MORNING,
+  day: MAP_STYLE_LIGHT,
+  evening: MAP_STYLE_EVENING,
+  night: MAP_STYLE_DARK,
+};
 
 let MapViewComponent: any = null;
 let Polyline: any = null;
@@ -22,6 +31,7 @@ interface Props {
 
 export function WalkMapView({ route, isLive = false, style }: Props) {
   const colors = useThemeStore((s) => s.colors);
+  const timeBucket = useThemeStore((s) => s.timeBucket);
 
   const coords = route.map((p) => ({ latitude: p.lat, longitude: p.lng }));
   const lastPoint = coords[coords.length - 1];
@@ -42,6 +52,7 @@ export function WalkMapView({ route, isLive = false, style }: Props) {
       <MapViewComponent
         style={styles.map}
         provider={Platform.OS === 'android' ? PROVIDER_GOOGLE : undefined}
+        customMapStyle={MAP_STYLES[timeBucket]}
         region={isLive && lastPoint ? { ...lastPoint, latitudeDelta: 0.005, longitudeDelta: 0.005 } : region}
         showsUserLocation={isLive}
         showsMyLocationButton={false}

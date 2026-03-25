@@ -1,6 +1,8 @@
 import { Ionicons } from '@expo/vector-icons';
+import { BlurView } from 'expo-blur';
+import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useThemeStore } from '../../stores/useThemeStore';
 import { radius, spacing, typography } from '../../theme/tokens';
 import { GlassCard } from '../ui/GlassCard';
@@ -33,8 +35,12 @@ export function SaveSheet({ durationSec, distanceM, speedKmh, calories, steps, i
     { icon: 'footsteps-outline' as const, value: steps.toLocaleString(), unit: isRu ? 'шагов' : 'steps' },
   ];
 
+  const isNight = useThemeStore((s) => s.timeBucket) === 'night';
+
   return (
-    <View style={[styles.overlay, { backgroundColor: colors.bgPrimary + 'F0' }]}>
+    <View style={styles.overlay}>
+      <BlurView intensity={40} tint={isNight ? 'dark' : 'light'} style={StyleSheet.absoluteFill} />
+      <View style={[StyleSheet.absoluteFill, { backgroundColor: colors.bgPrimary + '99' }]} />
       <GlassCard intensity="strong" style={styles.sheet}>
         <Text style={[styles.title, { color: colors.textPrimary, fontFamily: typography.family.bold }]}>
           {isRu ? 'Сохранить маршрут?' : 'Save route?'}
@@ -55,13 +61,28 @@ export function SaveSheet({ durationSec, distanceM, speedKmh, calories, steps, i
         </View>
 
         <TouchableOpacity
-          style={[styles.saveBtn, { backgroundColor: colors.accent }]}
           onPress={onSave}
           activeOpacity={0.8}
+          style={styles.saveBtnWrap}
         >
-          <Text style={[styles.saveBtnText, { color: colors.textInverse, fontFamily: typography.family.semibold }]}>
-            {isRu ? 'Сохранить момент' : 'Save moment'}
-          </Text>
+          <LinearGradient
+            colors={[colors.accent, colors.accentBright]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={[
+              styles.saveBtn,
+              Platform.OS === 'ios' && {
+                shadowColor: colors.accent,
+                shadowOffset: { width: 0, height: 6 },
+                shadowOpacity: 0.35,
+                shadowRadius: 14,
+              },
+            ]}
+          >
+            <Text style={[styles.saveBtnText, { color: colors.textInverse, fontFamily: typography.family.semibold }]}>
+              {isRu ? 'Сохранить момент' : 'Save moment'}
+            </Text>
+          </LinearGradient>
         </TouchableOpacity>
 
         <TouchableOpacity onPress={onDiscard} style={styles.discardBtn}>
@@ -80,6 +101,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     padding: spacing.xl,
     paddingBottom: spacing.xxl,
+    overflow: 'hidden',
   },
   sheet: {
     borderRadius: radius.sheet,
@@ -102,16 +124,18 @@ const styles = StyleSheet.create({
     minWidth: 70,
   },
   statValue: {
-    fontSize: 20,
+    fontSize: 22,
   },
   statUnit: {
     fontSize: typography.size.caption,
   },
+  saveBtnWrap: {
+    marginBottom: spacing.sm,
+  },
   saveBtn: {
     paddingVertical: 16,
-    borderRadius: radius.xl,
+    borderRadius: radius.pill,
     alignItems: 'center',
-    marginBottom: spacing.sm,
   },
   saveBtnText: {
     fontSize: typography.size.body,

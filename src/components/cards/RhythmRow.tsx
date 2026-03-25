@@ -1,7 +1,15 @@
 import { Ionicons } from '@expo/vector-icons';
-import React from 'react';
+import { LinearGradient } from 'expo-linear-gradient';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, View } from 'react-native';
+import Animated, {
+    useAnimatedStyle,
+    useSharedValue,
+    withRepeat,
+    withSequence,
+    withTiming,
+} from 'react-native-reanimated';
 import { useThemeStore } from '../../stores/useThemeStore';
 import { spacing, typography } from '../../theme/tokens';
 import { GlassCard } from '../ui/GlassCard';
@@ -20,12 +28,52 @@ export function RhythmRow({ streakDays, currentGoal, targetGoal, weekDays }: Rhy
   const colors = useThemeStore((s) => s.colors);
   const progress = targetGoal > 0 ? currentGoal / targetGoal : 0;
 
+  // Streak fire animation: pulse + subtle rotation
+  const fireScale = useSharedValue(1);
+  const fireRotate = useSharedValue(0);
+
+  useEffect(() => {
+    if (streakDays > 0) {
+      fireScale.value = withRepeat(
+        withSequence(
+          withTiming(1.15, { duration: 600 }),
+          withTiming(1, { duration: 600 }),
+        ),
+        -1,
+        true,
+      );
+      fireRotate.value = withRepeat(
+        withSequence(
+          withTiming(3, { duration: 400 }),
+          withTiming(-3, { duration: 400 }),
+          withTiming(0, { duration: 400 }),
+        ),
+        -1,
+        true,
+      );
+    }
+  }, [streakDays]);
+
+  const fireAnimStyle = useAnimatedStyle(() => ({
+    transform: [
+      { scale: fireScale.value },
+      { rotate: `${fireRotate.value}deg` },
+    ],
+  }));
+
   return (
     <GlassCard>
       <View style={styles.header}>
-        <View style={[styles.iconBadge, { backgroundColor: colors.accentRhythm + '20' }]}>
-          <Ionicons name="flame" size={18} color={colors.accentRhythm} />
-        </View>
+        <LinearGradient
+          colors={[colors.accentRhythm + '30', colors.accentRhythm + '10']}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 1 }}
+          style={styles.iconBadge}
+        >
+          <Animated.View style={streakDays > 0 ? fireAnimStyle : undefined}>
+            <Ionicons name="flame" size={18} color={colors.accentRhythm} />
+          </Animated.View>
+        </LinearGradient>
         <Text style={[styles.label, { color: colors.textSecondary, fontFamily: typography.family.semibold }]}>
           {t('home.rhythm.label') || 'Ритм'}
         </Text>
@@ -54,9 +102,9 @@ const styles = StyleSheet.create({
     marginBottom: spacing.md,
   },
   iconBadge: {
-    width: 36,
-    height: 36,
-    borderRadius: 12,
+    width: 40,
+    height: 40,
+    borderRadius: 14,
     alignItems: 'center',
     justifyContent: 'center',
   },

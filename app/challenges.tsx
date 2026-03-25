@@ -1,4 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -89,16 +90,27 @@ export default function ChallengesScreen() {
                   </Text>
 
                   {/* Progress bar */}
-                  <View style={[styles.progressBg, { backgroundColor: colors.stroke }]}>
-                    <View
-                      style={[
-                        styles.progressFill,
-                        {
-                          width: `${Math.round(progress * 100)}%`,
-                          backgroundColor: ch.completed ? '#34D399' : colors.accent,
-                        },
-                      ]}
-                    />
+                  <View style={styles.progressBg}>
+                    {ch.completed ? (
+                      <View
+                        style={[
+                          styles.progressFill,
+                          {
+                            width: `${Math.round(progress * 100)}%`,
+                            backgroundColor: '#34D399',
+                          },
+                        ]}
+                      />
+                    ) : (
+                      <View style={[styles.progressFillWrap, { width: `${Math.round(progress * 100)}%` }]}>
+                        <LinearGradient
+                          colors={[colors.accent, colors.accentBright]}
+                          start={{ x: 0, y: 0 }}
+                          end={{ x: 1, y: 0 }}
+                          style={styles.progressFill}
+                        />
+                      </View>
+                    )}
                   </View>
                 </View>
 
@@ -170,14 +182,21 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   progressBg: {
-    height: 6,
-    borderRadius: 3,
+    height: 8,
+    borderRadius: 4,
     marginTop: spacing.sm,
+    overflow: 'hidden',
+    backgroundColor: 'rgba(0,0,0,0.04)',
+  },
+  progressFillWrap: {
+    height: '100%',
+    borderRadius: 4,
     overflow: 'hidden',
   },
   progressFill: {
     height: '100%',
-    borderRadius: 3,
+    borderRadius: 4,
+    flex: 1,
   },
   emptyText: {
     fontSize: typography.size.body,

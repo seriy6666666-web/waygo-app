@@ -1,4 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
+import { BlurView } from 'expo-blur';
 import * as ImagePicker from 'expo-image-picker';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
@@ -23,6 +24,7 @@ export default function MoodScreen() {
   const router = useRouter();
   const addMood = useMoodStore((s) => s.addMood);
   const colors = useThemeStore((s) => s.colors);
+  const isNight = useThemeStore((s) => s.timeBucket) === 'night';
 
   const [selectedMood, setSelectedMood] = useState<MoodKey | null>(null);
   const [note, setNote] = useState('');
@@ -64,6 +66,7 @@ export default function MoodScreen() {
 
   return (
     <SafeArea>
+      <BlurView intensity={30} tint={isNight ? 'dark' : 'light'} style={StyleSheet.absoluteFill} />
       <View style={styles.container}>
         <Text style={[styles.title, { color: colors.textPrimary, fontFamily: typography.family.bold }]}>{t('mood.title')}</Text>
 

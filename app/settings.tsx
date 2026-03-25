@@ -222,9 +222,9 @@ const styles = StyleSheet.create({
   nameInput: {
     fontSize: typography.size.body,
     borderWidth: 1,
-    borderRadius: 12,
-    paddingHorizontal: 12,
-    paddingVertical: 6,
+    borderRadius: 14,
+    paddingHorizontal: 14,
+    paddingVertical: 8,
     minWidth: 120,
     textAlign: 'right',
   },

@@ -8,8 +8,10 @@ import { MoodCard } from '../../src/components/cards/MoodCard';
 import { MoveCard } from '../../src/components/cards/MoveCard';
 import { RhythmRow } from '../../src/components/cards/RhythmRow';
 import { SafeArea } from '../../src/components/layout/SafeArea';
+import { SkeletonCard } from '../../src/components/ui/Skeleton';
 import { AnimatedCard } from '../../src/components/ui/AnimatedCard';
 import { GlassCard } from '../../src/components/ui/GlassCard';
+import { PressableScale } from '../../src/components/ui/PressableScale';
 import { generateCurrentWeekRecap, generateTodayDayCard, loadRecaps, loadRecentCards } from '../../src/services/dataGeneration';
 import { getDayCardByDate, getMoodsByDate, getStreakDays, getWeekWalkDays, getWeekWalksCount } from '../../src/services/database';
 import { getCurrentPosition } from '../../src/services/location';
@@ -23,6 +25,7 @@ import { useWalkStore } from '../../src/stores/useWalkStore';
 import { getGreeting, getTimeTips } from '../../src/theme/adaptive';
 import { spacing, typography } from '../../src/theme/tokens';
 import { formatDateRu, getDayOfWeekRu } from '../../src/utils/date';
+import { hapticLight } from '../../src/utils/haptics';
 
 const TIME_EMOJI: Record<string, string> = {
   morning: '🌅',
@@ -59,6 +62,7 @@ export default function HomeScreen() {
   const [weekDays, setWeekDays] = useState<('full' | 'half' | 'empty')[]>(Array(7).fill('empty'));
   const [weekWalksCount, setWeekWalksCount] = useState(0);
   const [yesterdayCard, setYesterdayCard] = useState<{ date: string; mood?: string; note?: string } | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     (async () => {
@@ -114,6 +118,8 @@ export default function HomeScreen() {
       }
       } catch (err) {
         console.warn('Home data load failed:', err);
+      } finally {
+        setIsLoading(false);
       }
     })();
   }, [todayWalks.length, latestMood]);
@@ -125,6 +131,19 @@ export default function HomeScreen() {
   const greeting = getGreeting(timeBucket, name || (isRu ? 'друг' : 'friend'), isRu);
   const tips = useMemo(() => getTimeTips(timeBucket, isRu), [timeBucket, isRu]);
   const tip = tips[now.getMinutes() % tips.length];
+
+  // Typewriter effect for greeting
+  const [typedGreeting, setTypedGreeting] = useState('');
+  useEffect(() => {
+    setTypedGreeting('');
+    let i = 0;
+    const interval = setInterval(() => {
+      i++;
+      setTypedGreeting(greeting.slice(0, i));
+      if (i >= greeting.length) clearInterval(interval);
+    }, 35);
+    return () => clearInterval(interval);
+  }, [greeting]);
 
   const hasWalkToday = todayWalks.length > 0;
   const totalDurationMin = todayWalks.reduce((a, w) => a + w.durationSec, 0) / 60;
@@ -141,7 +160,7 @@ export default function HomeScreen() {
         <View style={styles.greetingSection}>
           <Text style={[styles.greetingEmoji]}>{TIME_EMOJI[timeBucket]}</Text>
           <Text style={[styles.greeting, { color: colors.textPrimary, fontFamily: typography.family.bold }]}>
-            {greeting}
+            {typedGreeting}
           </Text>
           <Text style={[styles.date, { color: colors.textSecondary, fontFamily: typography.family.regular }]}>
             {dateStr}, {dayStr}
@@ -159,6 +178,14 @@ export default function HomeScreen() {
         </View>
 
         {/* Tip Card */}
+        {isLoading ? (
+          <>
+            <SkeletonCard />
+            <SkeletonCard />
+            <SkeletonCard />
+          </>
+        ) : (
+        <>
         <AnimatedCard index={0}>
           <GlassCard intensity="soft" style={styles.tipCard}>
             <View style={styles.tipRow}>
@@ -172,27 +199,31 @@ export default function HomeScreen() {
 
         {/* Move Card */}
         <AnimatedCard index={1}>
-          <MoveCard
-            hasWalkToday={hasWalkToday}
-            durationMin={Math.round(totalDurationMin)}
-            distanceKm={totalDistanceKm}
-            onStartWalk={() => router.push('/(tabs)/walk')}
-          />
+          <PressableScale>
+            <MoveCard
+              hasWalkToday={hasWalkToday}
+              durationMin={Math.round(totalDurationMin)}
+              distanceKm={totalDistanceKm}
+              onStartWalk={() => router.push('/(tabs)/walk')}
+            />
+          </PressableScale>
         </AnimatedCard>
 
         {/* Mood Card */}
         <AnimatedCard index={2}>
-          <MoodCard
-            currentMood={latestMood}
-            onSelectMood={() => router.push('/mood')}
-          />
+          <PressableScale onPress={() => router.push('/mood')}>
+            <MoodCard
+              currentMood={latestMood}
+              onSelectMood={() => router.push('/mood')}
+            />
+          </PressableScale>
         </AnimatedCard>
 
         {/* Challenges Button */}
         <AnimatedCard index={3}>
           <TouchableOpacity
             activeOpacity={0.8}
-            onPress={() => router.push('/challenges')}
+            onPress={() => { hapticLight(); router.push('/challenges'); }}
             style={[styles.exploreBtn, { backgroundColor: colors.surfaceCard }]}
           >
             <Ionicons name="trophy-outline" size={22} color={colors.accent} />
@@ -207,7 +238,7 @@ export default function HomeScreen() {
         <AnimatedCard index={4}>
           <TouchableOpacity
             activeOpacity={0.8}
-            onPress={() => router.push('/explore-map')}
+            onPress={() => { hapticLight(); router.push('/explore-map'); }}
             style={[styles.exploreBtn, { backgroundColor: colors.surfaceCard }]}
           >
             <Ionicons name="map-outline" size={22} color={colors.accent} />
@@ -239,6 +270,8 @@ export default function HomeScreen() {
             weekDays={weekDays}
           />
         </AnimatedCard>
+        </>
+        )}
       </ScrollView>
     </SafeArea>
   );
@@ -258,11 +291,12 @@ const styles = StyleSheet.create({
     gap: 4,
   },
   greetingEmoji: {
-    fontSize: 32,
-    marginBottom: 4,
+    fontSize: 36,
+    marginBottom: 6,
   },
   greeting: {
-    fontSize: typography.size.h1,
+    fontSize: typography.size.h1 + 2,
+    letterSpacing: -0.5,
   },
   date: {
     fontSize: typography.size.caption,
@@ -297,8 +331,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: spacing.sm,
-    padding: spacing.md,
-    borderRadius: 16,
+    padding: spacing.md + 2,
+    borderRadius: 24,
   },
   exploreBtnText: {
     flex: 1,

@@ -1,5 +1,6 @@
 import React from 'react';
-import Animated, { FadeInDown, FadeInUp } from 'react-native-reanimated';
+import { Platform } from 'react-native';
+import Animated, { FadeInDown, FadeInUp, ZoomIn } from 'react-native-reanimated';
 
 interface AnimatedCardProps {
   children: React.ReactNode;
@@ -9,6 +10,15 @@ interface AnimatedCardProps {
 
 export function AnimatedCard({ children, index = 0, direction = 'up' }: AnimatedCardProps) {
   const delay = index * 80;
+
+  if (Platform.OS === 'web') {
+    return (
+      <Animated.View entering={FadeInUp.delay(delay).duration(400)}>
+        {children}
+      </Animated.View>
+    );
+  }
+
   const entering = direction === 'up'
     ? FadeInUp.delay(delay).duration(500).springify().damping(18)
     : FadeInDown.delay(delay).duration(500).springify().damping(18);

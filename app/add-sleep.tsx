@@ -234,7 +234,7 @@ const styles = StyleSheet.create({
   qualityIconBadge: {
     width: 48,
     height: 48,
-    borderRadius: 16,
+    borderRadius: 18,
     justifyContent: 'center',
     alignItems: 'center',
   },

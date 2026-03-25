@@ -273,6 +273,15 @@ export async function insertSleep(entry: {
   );
 }
 
+export async function getSleepBetween(startDate: string, endDate: string) {
+  if (isWeb) return [];
+  const database = await getDB();
+  return database.getAllAsync(
+    `SELECT date, quality, duration_min FROM sleep_entries WHERE date >= ? AND date <= ? ORDER BY date`,
+    [startDate, endDate]
+  ) as Promise<{ date: string; quality: string; duration_min: number }[]>;
+}
+
 // --- Habit helpers ---
 export async function insertHabit(habit: {
   id: string;

@@ -2,7 +2,8 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { useThemeStore } from '../../stores/useThemeStore';
-import { radius, shadows, spacing, typography } from '../../theme/tokens';
+import { spacing, typography } from '../../theme/tokens';
+import { GlassCard } from '../ui/GlassCard';
 
 interface MemoryTeaserProps {
   date: string;
@@ -16,22 +17,19 @@ export function MemoryTeaser({ date, mood, note, onPress }: MemoryTeaserProps) {
   const colors = useThemeStore((s) => s.colors);
 
   return (
-    <TouchableOpacity style={[styles.card, { backgroundColor: colors.surfaceCardAlt }]} onPress={onPress} activeOpacity={0.7}>
-      <Text style={[styles.label, { color: colors.textSecondary }]}>🗂 Memory</Text>
-      <Text style={[styles.date, { color: colors.textPrimary }]}>{date}</Text>
-      {mood && <Text style={[styles.mood, { color: colors.accent }]}>{mood}</Text>}
-      {note && <Text style={[styles.note, { color: colors.textSecondary }]} numberOfLines={2}>{note}</Text>}
-      <Text style={[styles.link, { color: colors.accent }]}>{t('home.memoryTeaser')} →</Text>
+    <TouchableOpacity onPress={onPress} activeOpacity={0.8}>
+      <GlassCard intensity="soft">
+        <Text style={[styles.label, { color: colors.textSecondary }]}>🗂 Memory</Text>
+        <Text style={[styles.date, { color: colors.textPrimary }]}>{date}</Text>
+        {mood && <Text style={[styles.mood, { color: colors.accent }]}>{mood}</Text>}
+        {note && <Text style={[styles.note, { color: colors.textSecondary }]} numberOfLines={2}>{note}</Text>}
+        <Text style={[styles.link, { color: colors.accent }]}>{t('home.memoryTeaser')} →</Text>
+      </GlassCard>
     </TouchableOpacity>
   );
 }
 
 const styles = StyleSheet.create({
-  card: {
-    borderRadius: radius.lg,
-    padding: spacing.xl,
-    ...shadows.cardSoft,
-  },
   label: {
     fontSize: typography.size.caption,
     fontWeight: typography.weight.semibold,

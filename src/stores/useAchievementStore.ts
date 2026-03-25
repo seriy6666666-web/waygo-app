@@ -15,13 +15,18 @@ import { useToastStore } from './useToastStore';
 interface AchievementState {
   unlocked: UserAchievement[];
   loading: boolean;
+  showConfetti: boolean;
   loadUnlocked: () => Promise<void>;
   checkAndUnlock: (streakDays?: number, habitStreak?: number) => Promise<string[]>;
+  dismissConfetti: () => void;
 }
 
 export const useAchievementStore = create<AchievementState>((set, get) => ({
   unlocked: [],
   loading: false,
+  showConfetti: false,
+
+  dismissConfetti: () => set({ showConfetti: false }),
 
   loadUnlocked: async () => {
     set({ loading: true });
@@ -67,6 +72,7 @@ export const useAchievementStore = create<AchievementState>((set, get) => ({
 
     if (newlyUnlocked.length > 0) {
       await get().loadUnlocked();
+      set({ showConfetti: true });
 
       // Show toast for each newly unlocked achievement
       const { show } = useToastStore.getState();

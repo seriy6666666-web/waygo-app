@@ -10,11 +10,14 @@ import {
     View,
 } from 'react-native';
 import { SleepChart } from '../../src/components/charts/SleepChart';
+import { SleepTrendChart } from '../../src/components/charts/SleepTrendChart';
 import { SafeArea } from '../../src/components/layout/SafeArea';
 import { GlassCard } from '../../src/components/ui/GlassCard';
+import { PulseView } from '../../src/components/ui/PulseView';
 import { useSleepStore } from '../../src/stores/useSleepStore';
 import { useThemeStore } from '../../src/stores/useThemeStore';
 import { spacing, typography } from '../../src/theme/tokens';
+import { hapticLight } from '../../src/utils/haptics';
 
 const QUALITY_ICON: Record<string, keyof typeof Ionicons.glyphMap> = {
   great: 'moon',
@@ -60,7 +63,7 @@ export default function SleepScreen() {
           <Text style={[styles.title, { color: colors.textPrimary, fontFamily: typography.family.bold }]}>{t('sleep.title')}</Text>
           <TouchableOpacity
             style={[styles.addBtn, { backgroundColor: colors.accent }]}
-            onPress={() => router.push('/add-sleep')}
+            onPress={() => { hapticLight(); router.push('/add-sleep'); }}
           >
             <Ionicons name="add" size={24} color={colors.textInverse} />
           </TouchableOpacity>
@@ -112,9 +115,14 @@ export default function SleepScreen() {
         ) : (
           <TouchableOpacity onPress={() => router.push('/add-sleep')}>
             <GlassCard style={styles.emptyToday}>
-              <View style={[styles.emptyIcon, { backgroundColor: colors.accent + '15' }]}>
-                <Ionicons name="moon" size={36} color={colors.accent} />
-              </View>
+              <PulseView>
+                <View style={[styles.emptyIcon, { backgroundColor: colors.accent + '15' }]}>
+                  <Text style={styles.emptyEmoji}>🌙</Text>
+                </View>
+              </PulseView>
+              <Text style={[styles.emptyTitle, { color: colors.textPrimary, fontFamily: typography.family.bold }]}>
+                {isRu ? 'Отслеживай сон' : 'Track your sleep'}
+              </Text>
               <Text style={[styles.emptyText, { color: colors.textSecondary, fontFamily: typography.family.regular }]}>
                 {isRu
                   ? 'Как спалось сегодня?\nЗапиши свой сон'
@@ -128,6 +136,13 @@ export default function SleepScreen() {
         {entries.length > 0 && (
           <GlassCard style={styles.chartCard}>
             <SleepChart entries={entries} isRu={isRu} />
+          </GlassCard>
+        )}
+
+        {/* Sleep trend chart */}
+        {entries.length > 0 && (
+          <GlassCard style={styles.chartCard}>
+            <SleepTrendChart isRu={isRu} />
           </GlassCard>
         )}
 
@@ -213,7 +228,7 @@ const styles = StyleSheet.create({
   qualityBadge: {
     width: 48,
     height: 48,
-    borderRadius: 16,
+    borderRadius: 18,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -251,12 +266,19 @@ const styles = StyleSheet.create({
     marginBottom: spacing.md,
   },
   emptyIcon: {
-    width: 72,
-    height: 72,
-    borderRadius: 24,
+    width: 96,
+    height: 96,
+    borderRadius: 48,
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 12,
+  },
+  emptyEmoji: {
+    fontSize: 48,
+  },
+  emptyTitle: {
+    fontSize: 22,
+    marginBottom: 4,
   },
   emptyText: {
     fontSize: 16,

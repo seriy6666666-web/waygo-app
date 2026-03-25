@@ -1,4 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 import { Pedometer } from 'expo-sensors';
 import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -169,7 +170,7 @@ export default function WalkScreen() {
           <View style={styles.idle}>
             <PulseView>
               <View style={[styles.idleIconCircle, { backgroundColor: colors.accent + '15' }]}>
-                <Ionicons name="footsteps" size={48} color={colors.accent} />
+                <Text style={styles.idleEmoji}>👟</Text>
               </View>
             </PulseView>
             <Text style={[styles.idleTitle, { color: colors.textPrimary, fontFamily: typography.family.bold }]}>
@@ -179,14 +180,28 @@ export default function WalkScreen() {
               {t('walk.hint')}
             </Text>
             <TouchableOpacity
-              style={[styles.startBtn, { backgroundColor: colors.accent }]}
               onPress={handleStart}
               activeOpacity={0.8}
             >
-              <Ionicons name="play" size={24} color={colors.textInverse} />
-              <Text style={[styles.startBtnText, { color: colors.textInverse, fontFamily: typography.family.semibold }]}>
-                {t('walk.start')}
-              </Text>
+              <LinearGradient
+                colors={[colors.accent, colors.accentBright]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 1 }}
+                style={[
+                  styles.startBtn,
+                  Platform.OS === 'ios' && {
+                    shadowColor: colors.accent,
+                    shadowOffset: { width: 0, height: 8 },
+                    shadowOpacity: 0.4,
+                    shadowRadius: 18,
+                  },
+                ]}
+              >
+                <Ionicons name="play" size={24} color={colors.textInverse} />
+                <Text style={[styles.startBtnText, { color: colors.textInverse, fontFamily: typography.family.semibold }]}>
+                  {t('walk.start')}
+                </Text>
+              </LinearGradient>
             </TouchableOpacity>
           </View>
         ) : (
@@ -306,19 +321,13 @@ const styles = StyleSheet.create({
     gap: 10,
     width: '100%',
     paddingVertical: 18,
-    borderRadius: radius.xl,
-    ...Platform.select({
-      ios: {
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 6 },
-        shadowOpacity: 0.15,
-        shadowRadius: 16,
-      },
-      android: { elevation: 6 },
-    }),
+    borderRadius: radius.pill,
   },
   startBtnText: {
     fontSize: typography.size.body,
+  },
+  idleEmoji: {
+    fontSize: 48,
   },
   active: {
     flex: 1,

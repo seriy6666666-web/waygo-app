@@ -3,21 +3,24 @@ import { useRouter } from 'expo-router';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import {
-    Pressable,
     ScrollView,
     StyleSheet,
     Text,
     TouchableOpacity,
-    View,
+    View
 } from 'react-native';
 import { ContributionGraph } from '../../src/components/charts/ContributionGraph';
 import { SafeArea } from '../../src/components/layout/SafeArea';
 import { AnimatedCard } from '../../src/components/ui/AnimatedCard';
 import { GlassCard } from '../../src/components/ui/GlassCard';
+import { PressableScale } from '../../src/components/ui/PressableScale';
+import { ProgressRing } from '../../src/components/ui/ProgressRing';
+import { PulseView } from '../../src/components/ui/PulseView';
 import { useHabitStore } from '../../src/stores/useHabitStore';
 import { useThemeStore } from '../../src/stores/useThemeStore';
 import { radius, spacing, typography } from '../../src/theme/tokens';
 import { getTodayDate } from '../../src/utils/date';
+import { hapticLight } from '../../src/utils/haptics';
 
 const WEEKDAYS_RU = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
 const WEEKDAYS_EN = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
@@ -57,7 +60,7 @@ export default function HabitsScreen() {
           </Text>
           <TouchableOpacity
             style={[styles.addBtn, { backgroundColor: colors.accent }]}
-            onPress={() => router.push('/add-habit')}
+            onPress={() => { hapticLight(); router.push('/add-habit'); }}
           >
             <Ionicons name="add" size={22} color={colors.textInverse} />
           </TouchableOpacity>
@@ -88,11 +91,11 @@ export default function HabitsScreen() {
 
         {/* Progress */}
         <GlassCard style={styles.progressCard}>
-          <View style={[styles.progressRing, { borderColor: colors.accent }]}>
+          <ProgressRing progress={pct / 100} size={64} strokeWidth={4}>
             <Text style={[styles.progressPct, { color: colors.accent, fontFamily: typography.family.bold }]}>
               {pct}%
             </Text>
-          </View>
+          </ProgressRing>
           <View style={styles.progressInfo}>
             <Text style={[styles.progressLabel, { color: colors.textPrimary, fontFamily: typography.family.bold }]}>
               {progress.done}/{progress.total}
@@ -113,9 +116,14 @@ export default function HabitsScreen() {
         {/* Habit list */}
         {habits.length === 0 ? (
           <View style={styles.emptyState}>
-            <View style={[styles.emptyIcon, { backgroundColor: colors.accent + '15' }]}>
-              <Ionicons name="leaf" size={36} color={colors.accent} />
-            </View>
+            <PulseView>
+              <View style={[styles.emptyIcon, { backgroundColor: colors.accent + '15' }]}>
+                <Text style={styles.emptyEmoji}>🌱</Text>
+              </View>
+            </PulseView>
+            <Text style={[styles.emptyTitle, { color: colors.textPrimary, fontFamily: typography.family.bold }]}>
+              {i18n.language === 'ru' ? 'Начни с малого' : 'Start small'}
+            </Text>
             <Text style={[styles.emptyText, { color: colors.textSecondary, fontFamily: typography.family.regular }]}>
               {i18n.language === 'ru'
                 ? 'Добавь первую привычку\nи начни строить ритм дня'
@@ -138,7 +146,7 @@ export default function HabitsScreen() {
               const color = habit.color || HABIT_COLOR_FALLBACK;
               return (
                 <AnimatedCard key={habit.id} index={idx}>
-                  <Pressable onPress={() => toggle(habit.id)}>
+                  <PressableScale onPress={() => toggle(habit.id)}>
                     <GlassCard style={{...styles.habitRow, ...(done ? styles.habitRowDone : {})}}>
                       <View
                         style={[
@@ -169,7 +177,7 @@ export default function HabitsScreen() {
                         color={done ? color : colors.textSecondary}
                       />
                     </GlassCard>
-                  </Pressable>
+                  </PressableScale>
                 </AnimatedCard>
               );
             })}
@@ -258,12 +266,19 @@ const styles = StyleSheet.create({
     paddingTop: 60,
   },
   emptyIcon: {
-    width: 72,
-    height: 72,
-    borderRadius: 24,
+    width: 96,
+    height: 96,
+    borderRadius: 48,
     justifyContent: 'center' as const,
     alignItems: 'center' as const,
     marginBottom: spacing.md,
+  },
+  emptyEmoji: {
+    fontSize: 48,
+  },
+  emptyTitle: {
+    fontSize: 22,
+    marginBottom: spacing.xs,
   },
   emptyText: {
     fontSize: 16,
@@ -301,7 +316,7 @@ const styles = StyleSheet.create({
   habitIconBadge: {
     width: 36,
     height: 36,
-    borderRadius: 12,
+    borderRadius: 14,
     justifyContent: 'center' as const,
     alignItems: 'center' as const,
     marginRight: 12,
