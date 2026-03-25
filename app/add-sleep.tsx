@@ -87,7 +87,7 @@ export default function AddSleepScreen() {
   return (
     <SafeArea>
       <View style={styles.topBar}>
-        <TouchableOpacity style={[styles.closeBtn, { backgroundColor: colors.surfaceCardAlt }]} onPress={() => router.back()}>
+        <TouchableOpacity style={[styles.closeBtn, { backgroundColor: colors.surfaceCardAlt }]} onPress={() => router.back()} accessibilityRole="button" accessibilityLabel={isRu ? 'Закрыть' : 'Close'}>
           <Ionicons name="close" size={20} color={colors.textPrimary} />
         </TouchableOpacity>
         <Text style={[styles.topTitle, { color: colors.textPrimary, fontFamily: typography.family.bold }]}>{t('sleep.title')}</Text>
@@ -105,6 +105,9 @@ export default function AddSleepScreen() {
               <TouchableOpacity
                 key={q.key}
                 onPress={() => setQuality(q.key)}
+                accessibilityRole="button"
+                accessibilityLabel={t(`sleep.qualities.${q.key}`)}
+                accessibilityState={{ selected: quality === q.key }}
               >
                 <GlassCard style={{...styles.qualityBtn, ...(active ? { borderColor: color, borderWidth: 2 } : {})}}>
                   <View style={[styles.qualityIconBadge, { backgroundColor: color + '20' }]}>
@@ -129,21 +132,21 @@ export default function AddSleepScreen() {
         <Text style={[styles.label, { color: colors.textPrimary, fontFamily: typography.family.bold }]}>{t('sleep.bedTime')}</Text>
         <View style={styles.timePickerRow}>
           <GlassCard style={styles.timePicker}>
-            <TouchableOpacity onPress={() => setBedH((h) => (h + 23) % 24)}>
+            <TouchableOpacity onPress={() => setBedH((h) => (h + 23) % 24)} accessibilityRole="button" accessibilityLabel={isRu ? 'Час выше' : 'Hour up'}>
               <Ionicons name="chevron-up" size={28} color={colors.textSecondary} />
             </TouchableOpacity>
             <Text style={[styles.timeValue, { color: colors.textPrimary, fontFamily: typography.family.bold }]}>{pad(bedH)}</Text>
-            <TouchableOpacity onPress={() => setBedH((h) => (h + 1) % 24)}>
+            <TouchableOpacity onPress={() => setBedH((h) => (h + 1) % 24)} accessibilityRole="button" accessibilityLabel={isRu ? 'Час ниже' : 'Hour down'}>
               <Ionicons name="chevron-down" size={28} color={colors.textSecondary} />
             </TouchableOpacity>
           </GlassCard>
           <Text style={[styles.timeSep, { color: colors.textSecondary, fontFamily: typography.family.bold }]}>:</Text>
           <GlassCard style={styles.timePicker}>
-            <TouchableOpacity onPress={() => setBedM((m) => (m + 45) % 60)}>
+            <TouchableOpacity onPress={() => setBedM((m) => (m + 45) % 60)} accessibilityRole="button" accessibilityLabel={isRu ? 'Минуты выше' : 'Minutes up'}>
               <Ionicons name="chevron-up" size={28} color={colors.textSecondary} />
             </TouchableOpacity>
             <Text style={[styles.timeValue, { color: colors.textPrimary, fontFamily: typography.family.bold }]}>{pad(bedM)}</Text>
-            <TouchableOpacity onPress={() => setBedM((m) => (m + 15) % 60)}>
+            <TouchableOpacity onPress={() => setBedM((m) => (m + 15) % 60)} accessibilityRole="button" accessibilityLabel={isRu ? 'Минуты ниже' : 'Minutes down'}>
               <Ionicons name="chevron-down" size={28} color={colors.textSecondary} />
             </TouchableOpacity>
           </GlassCard>
@@ -153,21 +156,21 @@ export default function AddSleepScreen() {
         <Text style={[styles.label, { color: colors.textPrimary, fontFamily: typography.family.bold }]}>{t('sleep.wakeTime')}</Text>
         <View style={styles.timePickerRow}>
           <GlassCard style={styles.timePicker}>
-            <TouchableOpacity onPress={() => setWakeH((h) => (h + 23) % 24)}>
+            <TouchableOpacity onPress={() => setWakeH((h) => (h + 23) % 24)} accessibilityRole="button" accessibilityLabel={isRu ? 'Час выше' : 'Hour up'}>
               <Ionicons name="chevron-up" size={28} color={colors.textSecondary} />
             </TouchableOpacity>
             <Text style={[styles.timeValue, { color: colors.textPrimary, fontFamily: typography.family.bold }]}>{pad(wakeH)}</Text>
-            <TouchableOpacity onPress={() => setWakeH((h) => (h + 1) % 24)}>
+            <TouchableOpacity onPress={() => setWakeH((h) => (h + 1) % 24)} accessibilityRole="button" accessibilityLabel={isRu ? 'Час ниже' : 'Hour down'}>
               <Ionicons name="chevron-down" size={28} color={colors.textSecondary} />
             </TouchableOpacity>
           </GlassCard>
           <Text style={[styles.timeSep, { color: colors.textSecondary, fontFamily: typography.family.bold }]}>:</Text>
           <GlassCard style={styles.timePicker}>
-            <TouchableOpacity onPress={() => setWakeM((m) => (m + 45) % 60)}>
+            <TouchableOpacity onPress={() => setWakeM((m) => (m + 45) % 60)} accessibilityRole="button" accessibilityLabel={isRu ? 'Минуты выше' : 'Minutes up'}>
               <Ionicons name="chevron-up" size={28} color={colors.textSecondary} />
             </TouchableOpacity>
             <Text style={[styles.timeValue, { color: colors.textPrimary, fontFamily: typography.family.bold }]}>{pad(wakeM)}</Text>
-            <TouchableOpacity onPress={() => setWakeM((m) => (m + 15) % 60)}>
+            <TouchableOpacity onPress={() => setWakeM((m) => (m + 15) % 60)} accessibilityRole="button" accessibilityLabel={isRu ? 'Минуты ниже' : 'Minutes down'}>
               <Ionicons name="chevron-down" size={28} color={colors.textSecondary} />
             </TouchableOpacity>
           </GlassCard>
@@ -185,7 +188,7 @@ export default function AddSleepScreen() {
         </GlassCard>
 
         {/* Save */}
-        <TouchableOpacity style={[styles.saveBtn, { backgroundColor: colors.accent }]} onPress={handleSave}>
+        <TouchableOpacity style={[styles.saveBtn, { backgroundColor: colors.accent }]} onPress={handleSave} accessibilityRole="button" accessibilityLabel={isRu ? 'Сохранить' : 'Save'}>
           <Text style={[styles.saveBtnText, { color: colors.textInverse, fontFamily: typography.family.bold }]}>
             {isRu ? 'Сохранить' : 'Save'}
           </Text>

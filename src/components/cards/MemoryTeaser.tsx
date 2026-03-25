@@ -17,7 +17,7 @@ export function MemoryTeaser({ date, mood, note, onPress }: MemoryTeaserProps) {
   const colors = useThemeStore((s) => s.colors);
 
   return (
-    <TouchableOpacity onPress={onPress} activeOpacity={0.8}>
+    <TouchableOpacity onPress={onPress} activeOpacity={0.8} accessibilityRole="button" accessibilityLabel={`Memory ${date}`}>
       <GlassCard intensity="soft">
         <Text style={[styles.label, { color: colors.textSecondary }]}>🗂 Memory</Text>
         <Text style={[styles.date, { color: colors.textPrimary }]}>{date}</Text>

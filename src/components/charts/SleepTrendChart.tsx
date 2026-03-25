@@ -103,6 +103,9 @@ export function SleepTrendChart({ isRu }: Props) {
                   backgroundColor: period === p ? colors.accent : 'transparent',
                 },
               ]}
+              accessibilityRole="button"
+              accessibilityLabel={`${p} ${isRu ? 'дней' : 'days'}`}
+              accessibilityState={{ selected: period === p }}
             >
               <Text
                 style={[

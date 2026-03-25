@@ -34,7 +34,7 @@ export function Toast() {
         { backgroundColor: colors.surfaceCard, borderColor: colors.accent + '30', transform: [{ translateY }], opacity },
       ]}
     >
-      <TouchableOpacity style={styles.inner} onPress={dismiss} activeOpacity={0.8}>
+      <TouchableOpacity style={styles.inner} onPress={dismiss} activeOpacity={0.8} accessibilityRole="button" accessibilityLabel={current.title}>
         {current.icon ? (
           <Text style={styles.icon}>{current.icon}</Text>
         ) : null}

@@ -82,7 +82,7 @@ export default function AddHabitScreen() {
   return (
     <SafeArea>
       <View style={styles.topBar}>
-        <TouchableOpacity style={[styles.closeBtn, { backgroundColor: colors.surfaceCardAlt }]} onPress={() => router.back()}>
+        <TouchableOpacity style={[styles.closeBtn, { backgroundColor: colors.surfaceCardAlt }]} onPress={() => router.back()} accessibilityRole="button" accessibilityLabel={i18n.language === 'ru' ? 'Закрыть' : 'Close'}>
           <Ionicons name="close" size={20} color={colors.textPrimary} />
         </TouchableOpacity>
         <Text style={[styles.topTitle, { color: colors.textPrimary, fontFamily: typography.family.bold }]}>{t('habits.add')}</Text>
@@ -95,6 +95,9 @@ export default function AddHabitScreen() {
           <TouchableOpacity
             style={[styles.tab, mode === 'presets' && { backgroundColor: colors.accent }]}
             onPress={() => setMode('presets')}
+            accessibilityRole="tab"
+            accessibilityLabel={i18n.language === 'ru' ? 'Готовые' : 'Presets'}
+            accessibilityState={{ selected: mode === 'presets' }}
           >
             <Text style={[styles.tabText, { color: colors.textSecondary, fontFamily: typography.family.semibold }, mode === 'presets' && { color: colors.textInverse }]}>
               {i18n.language === 'ru' ? 'Готовые' : 'Presets'}
@@ -103,6 +106,9 @@ export default function AddHabitScreen() {
           <TouchableOpacity
             style={[styles.tab, mode === 'custom' && { backgroundColor: colors.accent }]}
             onPress={() => setMode('custom')}
+            accessibilityRole="tab"
+            accessibilityLabel={i18n.language === 'ru' ? 'Своя' : 'Custom'}
+            accessibilityState={{ selected: mode === 'custom' }}
           >
             <Text style={[styles.tabText, { color: colors.textSecondary, fontFamily: typography.family.semibold }, mode === 'custom' && { color: colors.textInverse }]}>
               {i18n.language === 'ru' ? 'Своя' : 'Custom'}
@@ -116,6 +122,8 @@ export default function AddHabitScreen() {
               <TouchableOpacity
                 key={p.key}
                 onPress={() => handlePreset(p)}
+                accessibilityRole="button"
+                accessibilityLabel={t(`habits.presets.${p.key}`)}
               >
                 <GlassCard style={{...styles.presetCard, borderColor: p.color, borderWidth: 2}}>
                   <View style={[styles.presetIconBadge, { backgroundColor: p.color + '20' }]}>
@@ -155,6 +163,9 @@ export default function AddHabitScreen() {
                     customColor === c && { borderWidth: 3, borderColor: colors.textPrimary },
                   ]}
                   onPress={() => setCustomColor(c)}
+                  accessibilityRole="button"
+                  accessibilityLabel={c}
+                  accessibilityState={{ selected: customColor === c }}
                 />
               ))}
             </View>
@@ -167,6 +178,9 @@ export default function AddHabitScreen() {
               ]}
               onPress={handleCustom}
               disabled={!customName.trim()}
+              accessibilityRole="button"
+              accessibilityLabel={i18n.language === 'ru' ? 'Добавить' : 'Add'}
+              accessibilityState={{ disabled: !customName.trim() }}
             >
               <Text style={[styles.saveBtnText, { color: colors.textInverse, fontFamily: typography.family.bold }]}>
                 {i18n.language === 'ru' ? 'Добавить' : 'Add'}

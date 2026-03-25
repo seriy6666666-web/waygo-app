@@ -10,7 +10,7 @@ import { PulseView } from '../../src/components/ui/PulseView';
 import { SaveSheet } from '../../src/components/walk/SaveSheet';
 import { WalkMapView } from '../../src/components/walk/WalkMapView';
 import { insertWalk } from '../../src/services/database';
-import { requestLocationPermission, startLocationTracking } from '../../src/services/location';
+import { requestLocationPermission, startBackgroundTracking, startLocationTracking, stopBackgroundTracking } from '../../src/services/location';
 import { useAchievementStore } from '../../src/stores/useAchievementStore';
 import { useThemeStore } from '../../src/stores/useThemeStore';
 import { useToastStore } from '../../src/stores/useToastStore';
@@ -59,7 +59,7 @@ export default function WalkScreen() {
     };
   }, [isActive, isPaused]);
 
-  // Location tracking
+  // Location tracking (foreground + background)
   useEffect(() => {
     if (isActive && !isPaused) {
       (async () => {
@@ -67,12 +67,20 @@ export default function WalkScreen() {
           addRoutePoint({ lat, lng, ts: Date.now() });
         });
         locationRef.current = tracker;
+
+        // Also start background tracking for when app is minimized
+        startBackgroundTracking((lat, lng) => {
+          addRoutePoint({ lat, lng, ts: Date.now() });
+        });
       })();
     } else {
       locationRef.current?.remove();
+      stopBackgroundTracking();
     }
 
-    return () => locationRef.current?.remove();
+    return () => {
+      locationRef.current?.remove();
+    };
   }, [isActive, isPaused]);
 
   // Pedometer tracking
@@ -119,6 +127,7 @@ export default function WalkScreen() {
 
   const handleSaveConfirm = async () => {
     if (!pendingWalkStats) return;
+    await stopBackgroundTracking();
     const route = currentWalk.route;
     const { distanceM, durationSec, calories } = pendingWalkStats;
     const id = generateId();
@@ -154,6 +163,7 @@ export default function WalkScreen() {
   };
 
   const handleDiscard = () => {
+    stopBackgroundTracking();
     reset();
     setElapsed(0);
     setShowSaveSheet(false);
@@ -182,6 +192,8 @@ export default function WalkScreen() {
             <TouchableOpacity
               onPress={handleStart}
               activeOpacity={0.8}
+              accessibilityRole="button"
+              accessibilityLabel={t('walk.start')}
             >
               <LinearGradient
                 colors={[colors.accent, colors.accentBright]}
@@ -243,6 +255,8 @@ export default function WalkScreen() {
                     style={[styles.controlBtn, styles.controlBtnLarge, { backgroundColor: colors.accent }]}
                     onPress={resumeWalk}
                     activeOpacity={0.8}
+                    accessibilityRole="button"
+                    accessibilityLabel={isRu ? 'Продолжить' : 'Resume'}
                   >
                     <Ionicons name="play" size={28} color={colors.textInverse} />
                   </TouchableOpacity>
@@ -250,6 +264,8 @@ export default function WalkScreen() {
                     style={[styles.controlBtn, { backgroundColor: colors.surfaceCardAlt, borderWidth: 1, borderColor: colors.stroke }]}
                     onPress={handleFinish}
                     activeOpacity={0.8}
+                    accessibilityRole="button"
+                    accessibilityLabel={isRu ? 'Завершить' : 'Finish'}
                   >
                     <Ionicons name="stop" size={22} color={colors.textPrimary} />
                   </TouchableOpacity>
@@ -259,6 +275,8 @@ export default function WalkScreen() {
                   style={[styles.controlBtn, styles.controlBtnLarge, { backgroundColor: colors.surfaceCardAlt, borderWidth: 1, borderColor: colors.stroke }]}
                   onPress={pauseWalk}
                   activeOpacity={0.8}
+                  accessibilityRole="button"
+                  accessibilityLabel={isRu ? 'Пауза' : 'Pause'}
                 >
                   <Ionicons name="pause" size={28} color={colors.textPrimary} />
                 </TouchableOpacity>

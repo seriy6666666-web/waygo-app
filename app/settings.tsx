@@ -41,7 +41,7 @@ export default function SettingsScreen() {
       <ScrollView contentContainerStyle={styles.content}>
         <View style={styles.header}>
           <Text style={[styles.title, { color: colors.textPrimary, fontFamily: typography.family.bold }]}>{t('settings.title')}</Text>
-          <TouchableOpacity style={[styles.closeBtn, { backgroundColor: colors.surfaceCardAlt }]} onPress={() => router.back()}>
+          <TouchableOpacity style={[styles.closeBtn, { backgroundColor: colors.surfaceCardAlt }]} onPress={() => router.back()} accessibilityRole="button" accessibilityLabel={isRu ? 'Закрыть' : 'Close'}>
             <Ionicons name="close" size={20} color={colors.textSecondary} />
           </TouchableOpacity>
         </View>
@@ -69,6 +69,9 @@ export default function SettingsScreen() {
                   key={g}
                   style={[styles.goalBtn, { backgroundColor: colors.surfaceCardAlt, borderColor: colors.stroke }, weeklyGoal === g && { backgroundColor: colors.accent, borderColor: colors.accent }]}
                   onPress={() => setWeeklyGoal(g)}
+                  accessibilityRole="button"
+                  accessibilityLabel={`${isRu ? 'Цель' : 'Goal'}: ${g}`}
+                  accessibilityState={{ selected: weeklyGoal === g }}
                 >
                   <Text style={[styles.goalText, { color: colors.textPrimary, fontFamily: typography.family.semibold }, weeklyGoal === g && { color: colors.textInverse }]}>
                     {g}
@@ -91,6 +94,9 @@ export default function SettingsScreen() {
               value={adaptiveAmbiance}
               onValueChange={setAdaptiveAmbiance}
               trackColor={{ true: colors.accent, false: colors.stroke }}
+              accessibilityRole="switch"
+              accessibilityLabel={t('settings.adaptiveAmbiance')}
+              accessibilityState={{ checked: adaptiveAmbiance }}
             />
           </View>
         </GlassCard>
@@ -98,7 +104,7 @@ export default function SettingsScreen() {
         {/* Language */}
         <Text style={[styles.section, { color: colors.textSecondary, fontFamily: typography.family.semibold }]}>{t('settings.language')}</Text>
         <GlassCard>
-          <TouchableOpacity style={styles.row} onPress={toggleLanguage}>
+          <TouchableOpacity style={styles.row} onPress={toggleLanguage} accessibilityRole="button" accessibilityLabel={isRu ? 'Сменить язык' : 'Switch language'}>
             <Text style={[styles.label, { color: colors.textPrimary, fontFamily: typography.family.medium }]}>{locale === 'ru' ? 'Русский' : 'English'}</Text>
             <Ionicons name="swap-horizontal" size={20} color={colors.accent} />
           </TouchableOpacity>
@@ -121,6 +127,9 @@ export default function SettingsScreen() {
             <TouchableOpacity
               style={[styles.freezeBtn, { backgroundColor: freezesLeft > 0 ? colors.accent : colors.surfaceCardAlt }]}
               onPress={handleFreeze}
+              accessibilityRole="button"
+              accessibilityLabel={isRu ? 'Заморозить серию' : 'Freeze streak'}
+              accessibilityState={{ disabled: freezesLeft <= 0 }}
             >
               <Text style={{ fontSize: 20 }}>🧊</Text>
             </TouchableOpacity>
@@ -130,7 +139,7 @@ export default function SettingsScreen() {
         {/* Achievements */}
         <Text style={[styles.section, { color: colors.textSecondary, fontFamily: typography.family.semibold }]}>{t('achievements.title')}</Text>
         <GlassCard>
-          <TouchableOpacity style={styles.row} onPress={() => router.push('/achievements')}>
+          <TouchableOpacity style={styles.row} onPress={() => router.push('/achievements')} accessibilityRole="button" accessibilityLabel={t('achievements.title')}>
             <View style={styles.achRow}>
               <Ionicons name="trophy" size={20} color={colors.accent} />
               <Text style={[styles.label, { color: colors.textPrimary, fontFamily: typography.family.medium }]}>{t('achievements.title')}</Text>

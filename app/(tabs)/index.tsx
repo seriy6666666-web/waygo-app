@@ -230,6 +230,8 @@ export default function HomeScreen() {
             activeOpacity={0.8}
             onPress={() => { hapticLight(); router.push('/challenges'); }}
             style={[styles.exploreBtn, { backgroundColor: colors.surfaceCard }]}
+            accessibilityRole="button"
+            accessibilityLabel={isRu ? 'Челленджи' : 'Challenges'}
           >
             <Ionicons name="trophy-outline" size={22} color={colors.accent} />
             <Text style={[styles.exploreBtnText, { color: colors.textPrimary, fontFamily: typography.family.semibold }]}>
@@ -245,6 +247,8 @@ export default function HomeScreen() {
             activeOpacity={0.8}
             onPress={() => { hapticLight(); router.push('/explore-map'); }}
             style={[styles.exploreBtn, { backgroundColor: colors.surfaceCard }]}
+            accessibilityRole="button"
+            accessibilityLabel={isRu ? 'Карта открытий' : 'Explore Map'}
           >
             <Ionicons name="map-outline" size={22} color={colors.accent} />
             <Text style={[styles.exploreBtnText, { color: colors.textPrimary, fontFamily: typography.family.semibold }]}>

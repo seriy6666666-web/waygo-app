@@ -29,6 +29,9 @@ export function Button({ title, onPress, variant = 'primary', disabled, style }:
         onPress={handlePress}
         disabled={disabled}
         activeOpacity={0.8}
+        accessibilityRole="button"
+        accessibilityLabel={title}
+        accessibilityState={{ disabled: !!disabled }}
         style={[disabled && styles.disabled, style]}
       >
         <LinearGradient

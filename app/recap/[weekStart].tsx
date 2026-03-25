@@ -39,6 +39,8 @@ export default function RecapScreen() {
         <TouchableOpacity
           style={[styles.backBtn, { backgroundColor: colors.surfaceCardAlt }]}
           onPress={() => router.back()}
+          accessibilityRole="button"
+          accessibilityLabel={isRu ? 'Назад' : 'Go back'}
         >
           <Ionicons name="chevron-back" size={22} color={colors.textPrimary} />
         </TouchableOpacity>

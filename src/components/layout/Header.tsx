@@ -26,6 +26,8 @@ export function Header({ title, subtitle, showSettings = true }: HeaderProps) {
           style={styles.settingsBtn}
           onPress={() => router.push('/settings')}
           activeOpacity={0.7}
+          accessibilityRole="button"
+          accessibilityLabel="Settings"
         >
           <Ionicons name="settings-outline" size={22} color={colors.textSecondary} />
         </TouchableOpacity>

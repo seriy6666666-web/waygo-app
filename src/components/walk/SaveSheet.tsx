@@ -64,6 +64,8 @@ export function SaveSheet({ durationSec, distanceM, speedKmh, calories, steps, i
           onPress={onSave}
           activeOpacity={0.8}
           style={styles.saveBtnWrap}
+          accessibilityRole="button"
+          accessibilityLabel={isRu ? 'Сохранить момент' : 'Save moment'}
         >
           <LinearGradient
             colors={[colors.accent, colors.accentBright]}
@@ -85,7 +87,7 @@ export function SaveSheet({ durationSec, distanceM, speedKmh, calories, steps, i
           </LinearGradient>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={onDiscard} style={styles.discardBtn}>
+        <TouchableOpacity onPress={onDiscard} style={styles.discardBtn} accessibilityRole="button" accessibilityLabel={isRu ? 'Пропустить' : 'Skip'}>
           <Text style={[styles.discardText, { color: colors.textSecondary, fontFamily: typography.family.regular }]}>
             {isRu ? 'Пропустить' : 'Skip'}
           </Text>

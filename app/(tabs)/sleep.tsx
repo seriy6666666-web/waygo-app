@@ -64,6 +64,8 @@ export default function SleepScreen() {
           <TouchableOpacity
             style={[styles.addBtn, { backgroundColor: colors.accent }]}
             onPress={() => { hapticLight(); router.push('/add-sleep'); }}
+            accessibilityRole="button"
+            accessibilityLabel={isRu ? 'Добавить запись сна' : 'Add sleep entry'}
           >
             <Ionicons name="add" size={24} color={colors.textInverse} />
           </TouchableOpacity>
@@ -113,7 +115,7 @@ export default function SleepScreen() {
             </Text>
           </GlassCard>
         ) : (
-          <TouchableOpacity onPress={() => router.push('/add-sleep')}>
+          <TouchableOpacity onPress={() => router.push('/add-sleep')} accessibilityRole="button" accessibilityLabel={isRu ? 'Добавить запись сна' : 'Add sleep entry'}>
             <GlassCard style={styles.emptyToday}>
               <PulseView>
                 <View style={[styles.emptyIcon, { backgroundColor: colors.accent + '15' }]}>

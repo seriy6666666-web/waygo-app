@@ -45,7 +45,7 @@ export function Chip({ label, selected, onPress, emoji }: ChipProps) {
 
   if (selected) {
     return (
-      <TouchableOpacity onPress={handlePress} activeOpacity={0.8}>
+      <TouchableOpacity onPress={handlePress} activeOpacity={0.8} accessibilityRole="button" accessibilityLabel={label} accessibilityState={{ selected: true }}>
         <LinearGradient
           colors={[colors.accent, colors.accentBright]}
           start={{ x: 0, y: 0 }}
@@ -79,6 +79,9 @@ export function Chip({ label, selected, onPress, emoji }: ChipProps) {
       ]}
       onPress={handlePress}
       activeOpacity={0.7}
+      accessibilityRole="button"
+      accessibilityLabel={label}
+      accessibilityState={{ selected: false }}
     >
       {emoji && <Animated.View style={emojiAnimStyle}><Text style={styles.emoji}>{emoji}</Text></Animated.View>}
       <Text style={[styles.label, { color: colors.textPrimary }]}>{label}</Text>

@@ -74,7 +74,7 @@ export default function MoodScreen() {
 
         <NoteInput value={note} onChangeText={setNote} />
 
-        <TouchableOpacity onPress={handlePickPhoto}>
+        <TouchableOpacity onPress={handlePickPhoto} accessibilityRole="button" accessibilityLabel={photoUri ? t('mood.photoAdded', 'Фото добавлено') : t('mood.photo')}>
           <GlassCard style={styles.photoBtn}>
             <Ionicons name={photoUri ? 'checkmark-circle' : 'camera-outline'} size={22} color={colors.accent} />
             <Text style={[styles.photoBtnText, { color: colors.textSecondary, fontFamily: typography.family.medium }]}>

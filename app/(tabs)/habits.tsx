@@ -61,6 +61,8 @@ export default function HabitsScreen() {
           <TouchableOpacity
             style={[styles.addBtn, { backgroundColor: colors.accent }]}
             onPress={() => { hapticLight(); router.push('/add-habit'); }}
+            accessibilityRole="button"
+            accessibilityLabel={i18n.language === 'ru' ? 'Добавить привычку' : 'Add habit'}
           >
             <Ionicons name="add" size={22} color={colors.textInverse} />
           </TouchableOpacity>
@@ -132,6 +134,8 @@ export default function HabitsScreen() {
             <TouchableOpacity
               style={[styles.emptyBtn, { backgroundColor: colors.accent }]}
               onPress={() => router.push('/add-habit')}
+              accessibilityRole="button"
+              accessibilityLabel={t('habits.add')}
             >
               <Text style={[styles.emptyBtnText, { color: colors.textInverse, fontFamily: typography.family.semibold }]}>
                 {t('habits.add')}
@@ -146,7 +150,7 @@ export default function HabitsScreen() {
               const color = habit.color || HABIT_COLOR_FALLBACK;
               return (
                 <AnimatedCard key={habit.id} index={idx}>
-                  <PressableScale onPress={() => toggle(habit.id)}>
+                  <PressableScale onPress={() => toggle(habit.id)} accessibilityLabel={`${done ? (i18n.language === 'ru' ? 'Снять отметку' : 'Uncheck') : (i18n.language === 'ru' ? 'Отметить' : 'Check')} ${habit.name}`}>
                     <GlassCard style={{...styles.habitRow, ...(done ? styles.habitRowDone : {})}}>
                       <View
                         style={[

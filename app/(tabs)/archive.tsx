@@ -46,6 +46,9 @@ export default function ArchiveScreen() {
         <TouchableOpacity
           style={[styles.tab, tab === 'days' && { backgroundColor: colors.accent }]}
           onPress={() => setTab('days')}
+          accessibilityRole="tab"
+          accessibilityLabel={t('archive.days')}
+          accessibilityState={{ selected: tab === 'days' }}
         >
           <Text style={[styles.tabText, { color: colors.textSecondary, fontFamily: typography.family.semibold }, tab === 'days' && { color: colors.textInverse }]}>
             {t('archive.days')}
@@ -54,6 +57,9 @@ export default function ArchiveScreen() {
         <TouchableOpacity
           style={[styles.tab, tab === 'weeks' && { backgroundColor: colors.accent }]}
           onPress={() => setTab('weeks')}
+          accessibilityRole="tab"
+          accessibilityLabel={t('archive.weeks')}
+          accessibilityState={{ selected: tab === 'weeks' }}
         >
           <Text style={[styles.tabText, { color: colors.textSecondary, fontFamily: typography.family.semibold }, tab === 'weeks' && { color: colors.textInverse }]}>
             {t('archive.weeks')}
@@ -72,7 +78,7 @@ export default function ArchiveScreen() {
           onChangeText={setSearch}
         />
         {search.length > 0 && (
-          <TouchableOpacity onPress={() => setSearch('')}>
+          <TouchableOpacity onPress={() => setSearch('')} accessibilityRole="button" accessibilityLabel={isRu ? 'Очистить поиск' : 'Clear search'}>
             <Ionicons name="close-circle" size={18} color={colors.textSecondary} />
           </TouchableOpacity>
         )}
@@ -98,6 +104,8 @@ export default function ArchiveScreen() {
             key={card.id}
             onPress={() => router.push(`/day-card/${card.date}`)}
             activeOpacity={0.7}
+            accessibilityRole="button"
+            accessibilityLabel={`${isRu ? 'Карточка дня' : 'Day card'} ${card.date}`}
           >
             <GlassCard style={styles.card}>
               <View style={styles.cardHeader}>
@@ -138,6 +146,8 @@ export default function ArchiveScreen() {
             key={recap.id}
             onPress={() => router.push(`/recap/${recap.weekStart}`)}
             activeOpacity={0.7}
+            accessibilityRole="button"
+            accessibilityLabel={`${isRu ? 'Итоги недели' : 'Week recap'} ${recap.weekStart}`}
           >
             <GlassCard style={styles.card}>
               <View style={styles.cardHeader}>
