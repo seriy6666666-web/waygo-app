@@ -66,66 +66,94 @@ export default function HomeScreen() {
 
   useEffect(() => {
     let mounted = true;
-    (async () => {
+
+    const loadWeather = async () => {
       try {
-      // Fetch weather + update theme
-      const pos = await getCurrentPosition();
-      let weatherCode: number | null = null;
-      if (pos) {
+        const pos = await getCurrentPosition();
+        if (!pos || !mounted) return null;
         const w = await fetchWeather(pos.lat, pos.lng);
-        if (w && mounted) {
-          setWeather(w);
-          weatherCode = w.code;
+        if (w && mounted) setWeather(w);
+        return w?.code ?? null;
+      } catch (e) {
+        console.warn('Weather load failed:', e);
+        return null;
+      }
+    };
+
+    const loadCards = async (weatherCode: number | null) => {
+      try {
+        const card = await generateTodayDayCard(weatherCode);
+        if (card && mounted) setTodayCard(card);
+        const cards = await loadRecentCards();
+        if (mounted) setRecentCards(cards);
+      } catch (e) {
+        console.warn('Cards load failed:', e);
+      }
+    };
+
+    const loadRecapsData = async () => {
+      try {
+        const recap = await generateCurrentWeekRecap();
+        if (recap && mounted) setCurrentRecap(recap);
+        const allRecaps = await loadRecaps();
+        if (mounted) setRecaps(allRecaps);
+      } catch (e) {
+        console.warn('Recaps load failed:', e);
+      }
+    };
+
+    const loadStreakData = async () => {
+      try {
+        const [streak, wDays, wCount] = await Promise.all([
+          getStreakDays(),
+          getWeekWalkDays(),
+          getWeekWalksCount(),
+        ]);
+        if (mounted) {
+          setStreakDays(streak);
+          setWeekDays(wDays);
+          setWeekWalksCount(wCount);
         }
+      } catch (e) {
+        console.warn('Streak load failed:', e);
       }
-      if (!mounted) return;
+    };
 
-      // Auto-generate today's day card
-      const card = await generateTodayDayCard(weatherCode);
-      if (card && mounted) setTodayCard(card);
+    const loadYesterday = async () => {
+      try {
+        const yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+        const yDate = yesterday.toISOString().split('T')[0];
+        const yCard = await getDayCardByDate(yDate);
+        if (yCard && mounted) {
+          const yMoods = await getMoodsByDate(yDate) as any[];
+          const firstMood = yMoods[0];
+          setYesterdayCard({
+            date: yDate,
+            mood: firstMood?.mood,
+            note: firstMood?.note || undefined,
+          });
+        }
+      } catch (e) {
+        console.warn('Yesterday load failed:', e);
+      }
+    };
 
-      // Load recent cards for archive
-      const cards = await loadRecentCards();
-      if (mounted) setRecentCards(cards);
+    (async () => {
+      // Weather first (fast with timeout), then cards depend on weatherCode
+      const weatherCode = await loadWeather();
 
-      // Auto-generate weekly recap
-      const recap = await generateCurrentWeekRecap();
-      if (recap && mounted) setCurrentRecap(recap);
-      const allRecaps = await loadRecaps();
-      if (mounted) setRecaps(allRecaps);
-
-      // Load streak + week data
-      const [streak, wDays, wCount] = await Promise.all([
-        getStreakDays(),
-        getWeekWalkDays(),
-        getWeekWalksCount(),
+      // All remaining loads are independent — run in parallel
+      await Promise.all([
+        loadCards(weatherCode),
+        loadRecapsData(),
+        loadStreakData(),
+        loadYesterday(),
       ]);
-      if (mounted) {
-        setStreakDays(streak);
-        setWeekDays(wDays);
-        setWeekWalksCount(wCount);
-      }
 
-      // Load yesterday's card for memory teaser
-      const yesterday = new Date();
-      yesterday.setDate(yesterday.getDate() - 1);
-      const yDate = yesterday.toISOString().split('T')[0];
-      const yCard = await getDayCardByDate(yDate);
-      if (yCard && mounted) {
-        const yMoods = await getMoodsByDate(yDate) as any[];
-        const firstMood = yMoods[0];
-        setYesterdayCard({
-          date: yDate,
-          mood: firstMood?.mood,
-          note: firstMood?.note || undefined,
-        });
-      }
-      } catch (err) {
-        console.warn('Home data load failed:', err);
-      } finally {
-        if (mounted) setIsLoading(false);
-      }
+      if (mounted) setIsLoading(false);
     })();
+
     return () => { mounted = false; };
   }, [todayWalks.length, latestMood]);
 

@@ -31,9 +31,14 @@ export async function requestBackgroundPermission(): Promise<boolean> {
 
 export async function getCurrentPosition(): Promise<{ lat: number; lng: number } | null> {
   try {
-    const loc = await Location.getCurrentPositionAsync({
-      accuracy: Location.Accuracy.High,
-    });
+    const loc = await Promise.race([
+      Location.getCurrentPositionAsync({
+        accuracy: Location.Accuracy.Balanced,
+      }),
+      new Promise<never>((_, reject) =>
+        setTimeout(() => reject(new Error('Location timeout')), 5000),
+      ),
+    ]);
     return { lat: loc.coords.latitude, lng: loc.coords.longitude };
   } catch {
     return null;

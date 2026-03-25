@@ -1,4 +1,4 @@
-import { calculateDistance, calculateCalories, calculateSpeed } from '../utils/stats';
+import { calculateCalories, calculateDistance, calculateSpeed } from '../utils/stats';
 
 describe('calculateDistance', () => {
   it('returns 0 for empty route', () => {

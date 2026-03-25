@@ -1,4 +1,4 @@
-import { getDayOfWeekRu, formatDateRu, generateId, getWeekRange } from '../utils/date';
+import { formatDateRu, generateId, getDayOfWeekRu, getWeekRange } from '../utils/date';
 
 describe('getDayOfWeekRu', () => {
   it('returns "понедельник" for Monday', () => {

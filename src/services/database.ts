@@ -4,6 +4,7 @@ const isWeb = Platform.OS === 'web';
 
 let SQLite: typeof import('expo-sqlite') | null = null;
 let db: any = null;
+let dbInitPromise: Promise<any> | null = null;
 
 async function loadSQLite() {
   if (!SQLite) {
@@ -14,12 +15,17 @@ async function loadSQLite() {
 
 export async function getDB() {
   if (isWeb) return null;
-  if (!db) {
-    const sql = await loadSQLite();
-    db = await sql.openDatabaseAsync('waygo.db');
-    await initTables(db);
+  if (db) return db;
+  if (!dbInitPromise) {
+    dbInitPromise = (async () => {
+      const sql = await loadSQLite();
+      const database = await sql.openDatabaseAsync('waygo.db');
+      await initTables(database);
+      db = database;
+      return database;
+    })();
   }
-  return db;
+  return dbInitPromise;
 }
 
 async function initTables(database: any) {

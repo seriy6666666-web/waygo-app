@@ -1,4 +1,4 @@
-import { formatDuration, formatDistance, formatTime } from '../utils/formatters';
+import { formatDistance, formatDuration, formatTime } from '../utils/formatters';
 
 describe('formatDuration', () => {
   it('formats minutes in Russian by default', () => {
