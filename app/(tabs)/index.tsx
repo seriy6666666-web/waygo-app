@@ -65,6 +65,7 @@ export default function HomeScreen() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    let mounted = true;
     (async () => {
       try {
       // Fetch weather + update theme
@@ -72,25 +73,26 @@ export default function HomeScreen() {
       let weatherCode: number | null = null;
       if (pos) {
         const w = await fetchWeather(pos.lat, pos.lng);
-        if (w) {
+        if (w && mounted) {
           setWeather(w);
           weatherCode = w.code;
         }
       }
+      if (!mounted) return;
 
       // Auto-generate today's day card
       const card = await generateTodayDayCard(weatherCode);
-      if (card) setTodayCard(card);
+      if (card && mounted) setTodayCard(card);
 
       // Load recent cards for archive
       const cards = await loadRecentCards();
-      setRecentCards(cards);
+      if (mounted) setRecentCards(cards);
 
       // Auto-generate weekly recap
       const recap = await generateCurrentWeekRecap();
-      if (recap) setCurrentRecap(recap);
+      if (recap && mounted) setCurrentRecap(recap);
       const allRecaps = await loadRecaps();
-      setRecaps(allRecaps);
+      if (mounted) setRecaps(allRecaps);
 
       // Load streak + week data
       const [streak, wDays, wCount] = await Promise.all([
@@ -98,16 +100,18 @@ export default function HomeScreen() {
         getWeekWalkDays(),
         getWeekWalksCount(),
       ]);
-      setStreakDays(streak);
-      setWeekDays(wDays);
-      setWeekWalksCount(wCount);
+      if (mounted) {
+        setStreakDays(streak);
+        setWeekDays(wDays);
+        setWeekWalksCount(wCount);
+      }
 
       // Load yesterday's card for memory teaser
       const yesterday = new Date();
       yesterday.setDate(yesterday.getDate() - 1);
       const yDate = yesterday.toISOString().split('T')[0];
       const yCard = await getDayCardByDate(yDate);
-      if (yCard) {
+      if (yCard && mounted) {
         const yMoods = await getMoodsByDate(yDate) as any[];
         const firstMood = yMoods[0];
         setYesterdayCard({
@@ -119,9 +123,10 @@ export default function HomeScreen() {
       } catch (err) {
         console.warn('Home data load failed:', err);
       } finally {
-        setIsLoading(false);
+        if (mounted) setIsLoading(false);
       }
     })();
+    return () => { mounted = false; };
   }, [todayWalks.length, latestMood]);
 
   const now = new Date();

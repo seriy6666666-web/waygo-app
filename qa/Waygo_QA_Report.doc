@@ -1,0 +1,866 @@
+<html xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns="http://www.w3.org/TR/REC-html40">
+<head>
+<meta charset="utf-8">
+<meta name="ProgId" content="Word.Document">
+<meta name="Generator" content="Microsoft Word 15">
+<meta name="Originator" content="Microsoft Word 15">
+<!--[if gte mso 9]>
+<xml>
+<o:DocumentProperties>
+  <o:Title>QA-отчёт: Waygo App</o:Title>
+  <o:Author>Senior QA Engineer</o:Author>
+  <o:Created>2026-03-25T00:00:00Z</o:Created>
+</o:DocumentProperties>
+<w:WordDocument>
+  <w:View>Print</w:View>
+  <w:Zoom>100</w:Zoom>
+  <w:SpellingState>Clean</w:SpellingState>
+  <w:GrammarState>Clean</w:GrammarState>
+</w:WordDocument>
+</xml>
+<![endif]-->
+<style>
+  @page {
+    size: A4;
+    margin: 2cm 2.5cm 2cm 2.5cm;
+    mso-header-margin: 1cm;
+    mso-footer-margin: 1cm;
+  }
+  body {
+    font-family: 'Segoe UI', Calibri, Arial, sans-serif;
+    font-size: 11pt;
+    color: #1a1a2e;
+    line-height: 1.6;
+    background: #ffffff;
+  }
+
+  /* Cover page */
+  .cover {
+    page-break-after: always;
+    text-align: center;
+    padding-top: 160px;
+  }
+  .cover-logo {
+    font-size: 48pt;
+    margin-bottom: 10px;
+  }
+  .cover-app {
+    font-size: 36pt;
+    font-weight: 700;
+    color: #1a1a2e;
+    letter-spacing: 4px;
+    margin-bottom: 40px;
+  }
+  .cover-line {
+    width: 80px;
+    height: 3px;
+    background: #7C5CFC;
+    margin: 0 auto 40px auto;
+  }
+  .cover-title {
+    font-size: 20pt;
+    font-weight: 600;
+    color: #2d2d44;
+    margin-bottom: 8px;
+  }
+  .cover-subtitle {
+    font-size: 13pt;
+    color: #6b7280;
+    margin-bottom: 60px;
+  }
+  .cover-meta {
+    font-size: 11pt;
+    color: #6b7280;
+    line-height: 2;
+  }
+  .cover-meta b {
+    color: #1a1a2e;
+  }
+
+  /* Headers */
+  h1 {
+    font-size: 22pt;
+    font-weight: 700;
+    color: #1a1a2e;
+    border-bottom: 2px solid #7C5CFC;
+    padding-bottom: 8px;
+    margin-top: 30px;
+    margin-bottom: 16px;
+    page-break-after: avoid;
+  }
+  h2 {
+    font-size: 16pt;
+    font-weight: 600;
+    color: #2d2d44;
+    margin-top: 24px;
+    margin-bottom: 10px;
+    page-break-after: avoid;
+  }
+  h3 {
+    font-size: 12pt;
+    font-weight: 600;
+    color: #374151;
+    margin-top: 18px;
+    margin-bottom: 8px;
+    page-break-after: avoid;
+  }
+
+  /* Summary box */
+  .summary-box {
+    background: #f0f0ff;
+    border-left: 4px solid #7C5CFC;
+    padding: 16px 20px;
+    margin: 16px 0;
+    border-radius: 0 6px 6px 0;
+  }
+  .summary-box p {
+    margin: 4px 0;
+  }
+  .score {
+    font-size: 28pt;
+    font-weight: 700;
+    color: #7C5CFC;
+  }
+
+  /* Tables */
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 14px 0;
+    font-size: 10pt;
+  }
+  th {
+    background: #1a1a2e;
+    color: #ffffff;
+    font-weight: 600;
+    padding: 10px 12px;
+    text-align: left;
+    border: 1px solid #1a1a2e;
+  }
+  td {
+    padding: 8px 12px;
+    border: 1px solid #e5e7eb;
+    vertical-align: top;
+  }
+  tr:nth-child(even) td {
+    background: #f9fafb;
+  }
+
+  /* Priority badges */
+  .p0 {
+    background: #DC2626;
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 9pt;
+  }
+  .p1 {
+    background: #F59E0B;
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 9pt;
+  }
+  .p2 {
+    background: #3B82F6;
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 9pt;
+  }
+  .p3 {
+    background: #6B7280;
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-weight: 600;
+    font-size: 9pt;
+  }
+
+  /* Code blocks */
+  .code {
+    background: #f3f4f6;
+    border: 1px solid #e5e7eb;
+    border-radius: 4px;
+    padding: 10px 14px;
+    font-family: 'Cascadia Code', 'Consolas', 'Courier New', monospace;
+    font-size: 9pt;
+    line-height: 1.5;
+    margin: 8px 0;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    color: #1f2937;
+  }
+  code {
+    background: #f3f4f6;
+    padding: 1px 5px;
+    border-radius: 3px;
+    font-family: 'Cascadia Code', 'Consolas', 'Courier New', monospace;
+    font-size: 9.5pt;
+    color: #7C5CFC;
+  }
+
+  /* Bug card */
+  .bug {
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    padding: 14px 18px;
+    margin: 12px 0;
+    page-break-inside: avoid;
+  }
+  .bug-header {
+    display: flex;
+    margin-bottom: 6px;
+  }
+  .bug-id {
+    font-weight: 700;
+    color: #1a1a2e;
+    margin-right: 8px;
+  }
+  .bug-title {
+    font-weight: 600;
+    font-size: 11pt;
+    color: #1a1a2e;
+    margin-bottom: 4px;
+  }
+  .bug-file {
+    font-size: 9pt;
+    color: #6b7280;
+    margin-bottom: 8px;
+  }
+  .bug-desc {
+    margin-bottom: 8px;
+  }
+  .bug-fix {
+    background: #ecfdf5;
+    border-left: 3px solid #34D399;
+    padding: 8px 12px;
+    margin-top: 8px;
+    font-size: 10pt;
+  }
+  .bug-fix b {
+    color: #059669;
+  }
+
+  /* Status indicators */
+  .status-good { color: #059669; font-weight: 600; }
+  .status-warn { color: #D97706; font-weight: 600; }
+  .status-bad { color: #DC2626; font-weight: 600; }
+
+  /* Footer */
+  .footer {
+    margin-top: 40px;
+    padding-top: 16px;
+    border-top: 1px solid #e5e7eb;
+    font-size: 9pt;
+    color: #9ca3af;
+    text-align: center;
+  }
+
+  /* TOC */
+  .toc {
+    page-break-after: always;
+  }
+  .toc a {
+    color: #1a1a2e;
+    text-decoration: none;
+  }
+  .toc li {
+    margin: 6px 0;
+    font-size: 11pt;
+  }
+
+  ul {
+    margin: 6px 0 6px 20px;
+  }
+  li {
+    margin: 4px 0;
+  }
+  p {
+    margin: 6px 0;
+  }
+</style>
+</head>
+<body>
+
+<!-- ==================== ОБЛОЖКА ==================== -->
+<div class="cover">
+  <div class="cover-logo">🚶‍♂️</div>
+  <div class="cover-app">W A Y G O</div>
+  <div class="cover-line"></div>
+  <div class="cover-title">QA-отчёт: Code Review</div>
+  <div class="cover-subtitle">Полный аудит кодовой базы мобильного приложения</div>
+  <br><br><br>
+  <div class="cover-meta">
+    <b>Дата:</b> 25 марта 2026<br>
+    <b>Ревьюер:</b> Senior QA Engineer<br>
+    <b>Стек:</b> React Native (Expo SDK 55), TypeScript, Zustand, SQLite<br>
+    <b>Проверено файлов:</b> 60+<br>
+    <b>Ошибки компиляции:</b> 0
+  </div>
+</div>
+
+<!-- ==================== СОДЕРЖАНИЕ ==================== -->
+<div class="toc">
+  <h1>Содержание</h1>
+  <ol style="font-size: 12pt; line-height: 2.2;">
+    <li><a href="#summary">Сводка</a></li>
+    <li><a href="#scope">Область проверки</a></li>
+    <li><a href="#p0">Критические баги (P0)</a></li>
+    <li><a href="#p1">Высокий приоритет (P1)</a></li>
+    <li><a href="#p2">Средний приоритет (P2)</a></li>
+    <li><a href="#p3">Низкий приоритет (P3)</a></li>
+    <li><a href="#layers">Оценка по слоям</a></li>
+    <li><a href="#strengths">Сильные стороны проекта</a></li>
+    <li><a href="#action">План действий</a></li>
+  </ol>
+</div>
+
+<!-- ==================== 1. СВОДКА ==================== -->
+<a name="summary"></a>
+<h1>1. Сводка</h1>
+
+<div class="summary-box">
+  <table style="border: none; margin: 0;">
+    <tr style="border: none;">
+      <td style="border: none; width: 120px; text-align: center; vertical-align: middle;">
+        <span class="score">8 / 10</span>
+      </td>
+      <td style="border: none; vertical-align: middle;">
+        <p><b>Общая оценка кодовой базы.</b></p>
+        <p>Код хорошо структурирован, аккуратно типизирован и грамотно разбит на слои. Архитектура соответствует best practices React Native + Expo. Для MVP-стадии — отличная основа. Найдено <b>20 проблем</b>, из которых <b>4 критических</b>.</p>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<table>
+  <tr>
+    <th>Приоритет</th>
+    <th>Кол-во</th>
+    <th>Описание</th>
+  </tr>
+  <tr>
+    <td><span class="p0">P0 — Critical</span></td>
+    <td style="text-align:center; font-weight: 700;">4</td>
+    <td>Потеря данных, memory leaks, коллизии ID</td>
+  </tr>
+  <tr>
+    <td><span class="p1">P1 — High</span></td>
+    <td style="text-align:center; font-weight: 700;">6</td>
+    <td>Логические ошибки, данные не персистятся, UX-проблемы</td>
+  </tr>
+  <tr>
+    <td><span class="p2">P2 — Medium</span></td>
+    <td style="text-align:center; font-weight: 700;">5</td>
+    <td>Типизация, code quality, hardcoded строки</td>
+  </tr>
+  <tr>
+    <td><span class="p3">P3 — Low</span></td>
+    <td style="text-align:center; font-weight: 700;">5</td>
+    <td>Производительность, accessibility, polish</td>
+  </tr>
+</table>
+
+<!-- ==================== 2. ОБЛАСТЬ ПРОВЕРКИ ==================== -->
+<a name="scope"></a>
+<h1>2. Область проверки</h1>
+
+<table>
+  <tr>
+    <th>Слой</th>
+    <th>Файлы</th>
+    <th>Что проверялось</th>
+  </tr>
+  <tr>
+    <td><b>App Screens</b></td>
+    <td>22 файла в <code>app/</code></td>
+    <td>Навигация, state management, lifecycles, UX</td>
+  </tr>
+  <tr>
+    <td><b>Components</b></td>
+    <td>31 файл в <code>src/components/</code></td>
+    <td>Рендеринг, пропсы, анимации, тема</td>
+  </tr>
+  <tr>
+    <td><b>Stores</b></td>
+    <td>11 файлов в <code>src/stores/</code></td>
+    <td>Zustand state, persist, бизнес-логика, side effects</td>
+  </tr>
+  <tr>
+    <td><b>Services</b></td>
+    <td>8 файлов в <code>src/services/</code></td>
+    <td>SQLite операции, API запросы, разрешения</td>
+  </tr>
+  <tr>
+    <td><b>Utils / Types</b></td>
+    <td>5 файлов в <code>src/utils/</code>, <code>src/types/</code></td>
+    <td>Утилиты вычислений, типизация, форматирование</td>
+  </tr>
+  <tr>
+    <td><b>Theme / i18n</b></td>
+    <td>6 файлов в <code>src/theme/</code>, <code>src/i18n/</code></td>
+    <td>Адаптивная тема, токены, локализация</td>
+  </tr>
+</table>
+
+<!-- ==================== 3. P0 — КРИТИЧЕСКИЕ ==================== -->
+<a name="p0"></a>
+<h1>3. Критические баги (P0)</h1>
+
+<div class="bug">
+  <div class="bug-title"><span class="p0">P0</span> &nbsp; BUG-001: Потеря данных прогулки при краше</div>
+  <div class="bug-file">📂 app/(tabs)/walk.tsx → src/stores/useWalkStore.ts</div>
+  <div class="bug-desc">
+    <p>Маршрут (<code>route: RoutePoint[]</code>) во время активной прогулки хранится <b>только</b> в Zustand (in-memory). Если приложение крашится, убивается системой (OOM) или пользователь случайно свайпает его — все GPS-точки теряются безвозвратно.</p>
+    <p>Это критично: пользователь прошёл 40 минут, и всё пропало.</p>
+  </div>
+  <div class="bug-fix">
+    <b>Рекомендация:</b> Периодически (каждые 10-20 точек) сохранять route snapshot в AsyncStorage или в отдельную таблицу SQLite <code>walk_drafts</code>. При следующем открытии — предлагать восстановить незавершённую прогулку.
+  </div>
+</div>
+
+<div class="bug">
+  <div class="bug-title"><span class="p0">P0</span> &nbsp; BUG-002: generateId() может давать коллизии</div>
+  <div class="bug-file">📂 src/utils/date.ts</div>
+  <div class="bug-desc">
+    <p>Текущая реализация:</p>
+    <div class="code">export function generateId(): string {
+  return Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+}</div>
+    <p><code>Date.now()</code> имеет миллисекундную точность. При быстрых вызовах (например, два mood'а добавлены одним тапом) временная часть совпадёт. 6 символов random дают ~2.1 млрд вариантов, но это не криптографически уникально. Результат используется как <code>PRIMARY KEY</code> в SQLite — при коллизии запись перезапишется или упадёт.</p>
+  </div>
+  <div class="bug-fix">
+    <b>Рекомендация:</b> Заменить на <code>crypto.randomUUID()</code> (доступен в Hermes) или использовать <code>expo-crypto</code>.
+  </div>
+</div>
+
+<div class="bug">
+  <div class="bug-title"><span class="p0">P0</span> &nbsp; BUG-003: Пустые catch {} блоки скрывают ошибки</div>
+  <div class="bug-file">📂 app/day-card/[date].tsx, app/explore-map.tsx, src/services/weather.ts</div>
+  <div class="bug-desc">
+    <p>Минимум в 4 местах кода ошибки молча проглатываются:</p>
+    <div class="code">// day-card/[date].tsx — handleShare
+try { ... } catch {}  // ← пустой catch
+
+// explore-map.tsx — loadRoutes
+try { const pts = JSON.parse(row.route); ... } catch {}
+
+// weather.ts — fetchWeather
+try { ... } catch { return null; }</div>
+    <p>Пользователь не получает никакого feedback при сбое. В production невозможно отладить.</p>
+  </div>
+  <div class="bug-fix">
+    <b>Рекомендация:</b> Логировать через <code>console.error()</code> + показывать Toast при user-facing ошибках.
+  </div>
+</div>
+
+<div class="bug">
+  <div class="bug-title"><span class="p0">P0</span> &nbsp; BUG-004: Memory leaks — отсутствует cleanup в useEffect</div>
+  <div class="bug-file">📂 app/(tabs)/index.tsx, app/(tabs)/walk.tsx, app/achievements.tsx</div>
+  <div class="bug-desc">
+    <p>Async-операции в <code>useEffect</code> не отменяются при unmount компонента:</p>
+    <ul>
+      <li><b>index.tsx:</b> fetch weather вызывает <code>setWeather()</code> после unmount</li>
+      <li><b>index.tsx:</b> typewriter <code>setInterval</code> не очищается</li>
+      <li><b>walk.tsx:</b> location subscription может остаться активной</li>
+      <li><b>achievements.tsx:</b> <code>loadUnlocked()</code> вызывает setState после unmount</li>
+    </ul>
+    <p>Приводит к React warning «Can't perform a React state update on an unmounted component» и утечкам памяти.</p>
+  </div>
+  <div class="bug-fix">
+    <b>Рекомендация:</b> Добавить <code>AbortController</code> для fetch, <code>let mounted = true</code> для async, <code>clearInterval</code> для таймеров, <code>subscription.remove()</code> для location.
+  </div>
+</div>
+
+<!-- ==================== 4. P1 — ВЫСОКИЙ ==================== -->
+<a name="p1"></a>
+<h1>4. Высокий приоритет (P1)</h1>
+
+<div class="bug">
+  <div class="bug-title"><span class="p1">P1</span> &nbsp; BUG-005: MoodChips жёстко использует русский язык</div>
+  <div class="bug-file">📂 src/components/mood/MoodChips.tsx</div>
+  <div class="bug-desc">
+    <p>Компонент всегда выводит русские лейблы, игнорируя текущую локаль:</p>
+    <div class="code">label={MOOD_LABELS[key].ru}  // Всегда русский</div>
+    <p>Для пользователей с <code>locale: 'en'</code> отображаются русские слова.</p>
+  </div>
+  <div class="bug-fix">
+    <b>Рекомендация:</b> Использовать <code>t(`mood.moods.${key}`)</code> из react-i18next или передавать locale через пропс.
+  </div>
+</div>
+
+<div class="bug">
+  <div class="bug-title"><span class="p1">P1</span> &nbsp; BUG-006: formatDuration возвращает число без единицы</div>
+  <div class="bug-file">📂 src/utils/formatters.ts</div>
+  <div class="bug-desc">
+    <div class="code">export function formatDuration(sec: number): string {
+  const min = Math.floor(sec / 60);
+  if (min < 60) return `${min}`;   // ← "25" — что это?
+  ...
+}</div>
+    <p>Пользователь видит голое число без единицы измерения (мин / min).</p>
+  </div>
+  <div class="bug-fix">
+    <b>Рекомендация:</b> <code>return `${min} мин`</code> с учётом i18n.
+  </div>
+</div>
+
+<div class="bug">
+  <div class="bug-title"><span class="p1">P1</span> &nbsp; BUG-007: Progress bar сна переполняется &gt;100%</div>
+  <div class="bug-file">📂 app/(tabs)/sleep.tsx</div>
+  <div class="bug-desc">
+    <div class="code">(todayEntry.durationMin / 480) * 100
+// Если durationMin = 600 (10 часов) → 125%</div>
+    <p>Progress bar выезжает за границы контейнера.</p>
+  </div>
+  <div class="bug-fix">
+    <b>Рекомендация:</b> <code>Math.min((todayEntry.durationMin / 480) * 100, 100)</code>
+  </div>
+</div>
+
+<div class="bug">
+  <div class="bug-title"><span class="p1">P1</span> &nbsp; BUG-008: applyWeatherModifier — одинаковый эффект для всей погоды</div>
+  <div class="bug-file">📂 src/theme/adaptive.ts</div>
+  <div class="bug-desc">
+    <p>Три разных погодных кейса делают одно и то же:</p>
+    <div class="code">case 'cloudy':  return { ...theme, accentMuted: theme.textSecondary };
+case 'rain':    return { ...theme, accentMuted: theme.textSecondary };
+case 'snowFog': return { ...theme, accentMuted: theme.textSecondary };</div>
+    <p>Фича «адаптивная амбиция» заявлена как премиальная, но визуально нет разницы между дождём, снегом и облачностью.</p>
+  </div>
+  <div class="bug-fix">
+    <b>Рекомендация:</b> Добавить осмысленные визуальные различия: десатурация для облачно, blue tint для дождя, lighter palette для снега.
+  </div>
+</div>
+
+<div class="bug">
+  <div class="bug-title"><span class="p1">P1</span> &nbsp; BUG-009: Challenges не сохраняются при перезапуске</div>
+  <div class="bug-file">📂 src/stores/useChallengeStore.ts</div>
+  <div class="bug-desc">
+    <p><code>useChallengeStore</code> не использует <code>persist</code> middleware (в отличие от <code>useSettingsStore</code>). При перезапуске приложения:</p>
+    <ul>
+      <li>Генерируются новые challenges</li>
+      <li>Прогресс текущей недели теряется</li>
+      <li>Completed challenges забываются</li>
+    </ul>
+  </div>
+  <div class="bug-fix">
+    <b>Рекомендация:</b> Добавить <code>persist</code> с <code>AsyncStorage</code>, аналогично <code>useSettingsStore</code>.
+  </div>
+</div>
+
+<div class="bug">
+  <div class="bug-title"><span class="p1">P1</span> &nbsp; BUG-010: removeHabit не удаляет из SQLite</div>
+  <div class="bug-file">📂 src/stores/useHabitStore.ts</div>
+  <div class="bug-desc">
+    <div class="code">removeHabit: (id) => {
+  set((s) => ({                    // ← Удаляет только из Zustand state
+    habits: s.habits.filter(h => h.id !== id),
+    todayLogs: ...
+  }));
+  // ❌ НЕТ вызова DELETE FROM habits WHERE id = ?
+}</div>
+    <p>При следующей загрузке данных из SQLite «удалённая» привычка вернётся.</p>
+  </div>
+  <div class="bug-fix">
+    <b>Рекомендация:</b> Добавить в <code>database.ts</code>: <code>deleteHabit(id)</code> → <code>DELETE FROM habits WHERE id = ?</code> и вызвать в <code>removeHabit</code>.
+  </div>
+</div>
+
+<!-- ==================== 5. P2 — СРЕДНИЙ ==================== -->
+<a name="p2"></a>
+<h1>5. Средний приоритет (P2)</h1>
+
+<div class="bug">
+  <div class="bug-title"><span class="p2">P2</span> &nbsp; BUG-011: Массовое использование типа <code>any</code></div>
+  <div class="bug-file">📂 database.ts, dataGeneration.ts, day-card/[date].tsx, explore-map.tsx</div>
+  <div class="bug-desc">
+    <p>Тип <code>any</code> используется в ~15 местах: <code>(walks as any[])</code>, <code>database: any</code>, <code>MapView: any</code>, <code>(database.getFirstAsync as Function)</code>.</p>
+    <p>Это подавляет TypeScript проверки и скрывает потенциальные ошибки. Ломает автодополнение в IDE.</p>
+  </div>
+  <div class="bug-fix">
+    <b>Рекомендация:</b> Определить интерфейсы для DB rows и заменить все <code>any</code> на конкретные типы.
+  </div>
+</div>
+
+<div class="bug">
+  <div class="bug-title"><span class="p2">P2</span> &nbsp; BUG-012: Hardcoded строки вместо i18n</div>
+  <div class="bug-file">📂 sleep.tsx, settings.tsx, MoveCard.tsx, dataGeneration.ts</div>
+  <div class="bug-desc">
+    <p>Захардкоженные строки в JSX и бизнес-логике:</p>
+    <ul>
+      <li><code>'Русский'</code> / <code>'English'</code> в settings.tsx</li>
+      <li><code>'мин'</code>, <code>'км'</code> в MoveCard.tsx</li>
+      <li><code>'Утро'</code>, <code>'Ясно'</code>, <code>'Дождь'</code> в dataGeneration.ts (теги)</li>
+    </ul>
+    <p>При добавлении третьего языка — все эти места нужно искать вручную.</p>
+  </div>
+  <div class="bug-fix">
+    <b>Рекомендация:</b> Вынести все user-facing строки в i18n ресурсы.
+  </div>
+</div>
+
+<div class="bug">
+  <div class="bug-title"><span class="p2">P2</span> &nbsp; BUG-013: getDayCardByDate — опасный каст к Function</div>
+  <div class="bug-file">📂 src/services/database.ts</div>
+  <div class="bug-desc">
+    <div class="code">(database.getFirstAsync as Function)(`SELECT ...`, [date])</div>
+    <p>Прямой каст к <code>Function</code> обходит TypeScript. Если expo-sqlite обновит API — ошибка будет скрыта at runtime.</p>
+  </div>
+  <div class="bug-fix">
+    <b>Рекомендация:</b> Типизировать <code>db</code> как <code>SQLiteDatabase</code> из expo-sqlite и вызывать методы напрямую.
+  </div>
+</div>
+
+<div class="bug">
+  <div class="bug-title"><span class="p2">P2</span> &nbsp; BUG-014: evaluateCondition — хрупкий парсер</div>
+  <div class="bug-file">📂 src/stores/useAchievementStore.ts</div>
+  <div class="bug-desc">
+    <div class="code">function evaluateCondition(condition: string, stats: Record&lt;string, number&gt;): boolean {
+  const match = condition.match(/^(\w+)\s*(>=)\s*(\d+)$/);
+  if (!match) return false;  // ← Молча не работает для неподдерживаемых условий
+  ...
+}</div>
+    <p>Поддерживает только <code>key &gt;= N</code>. Не обрабатывает AND/OR, не валидирует неизвестные ключи, не логирует несовпадения.</p>
+  </div>
+  <div class="bug-fix">
+    <b>Рекомендация:</b> Добавить <code>console.warn</code> при несовпадении regex. Задокументировать поддерживаемый формат условий.
+  </div>
+</div>
+
+<div class="bug">
+  <div class="bug-title"><span class="p2">P2</span> &nbsp; BUG-015: Дублирование логики вычисления дат</div>
+  <div class="bug-file">📂 src/utils/date.ts, src/services/database.ts</div>
+  <div class="bug-desc">
+    <p>Логика «найти понедельник текущей недели» скопирована в 3 местах с одинаковым кодом:</p>
+    <ul>
+      <li><code>date.ts → getWeekRange()</code></li>
+      <li><code>database.ts → getWeekWalkDays()</code></li>
+      <li><code>database.ts → getWeekWalksCount()</code></li>
+    </ul>
+    <p>Нарушение DRY. При изменении логики (например, неделя с воскресенья) — легко исправить в одном месте и забыть остальные.</p>
+  </div>
+  <div class="bug-fix">
+    <b>Рекомендация:</b> Использовать <code>getWeekRange()</code> из date.ts во всех местах.
+  </div>
+</div>
+
+<!-- ==================== 6. P3 — НИЗКИЙ ==================== -->
+<a name="p3"></a>
+<h1>6. Низкий приоритет (P3)</h1>
+
+<div class="bug">
+  <div class="bug-title"><span class="p3">P3</span> &nbsp; BUG-016: ContributionGraph пересчитывает grid каждый рендер</div>
+  <div class="bug-file">📂 src/components/charts/ContributionGraph.tsx</div>
+  <div class="bug-desc">
+    <p><code>getDateGrid()</code> вызывается при каждом рендере без мемоизации. Создаёт ~91 объект Date каждый раз.</p>
+  </div>
+  <div class="bug-fix">
+    <b>Рекомендация:</b> Обернуть в <code>useMemo(() =&gt; getDateGrid(), [])</code>.
+  </div>
+</div>
+
+<div class="bug">
+  <div class="bug-title"><span class="p3">P3</span> &nbsp; BUG-017: AmbientBackground фиксирует размеры экрана</div>
+  <div class="bug-file">📂 src/components/layout/AmbientBackground.tsx</div>
+  <div class="bug-desc">
+    <div class="code">const { width, height } = Dimensions.get('window');  // Вне компонента!</div>
+    <p>При повороте экрана, split-screen на iPad или изменении масштаба — размеры не обновятся, glow-элементы сместятся.</p>
+  </div>
+  <div class="bug-fix">
+    <b>Рекомендация:</b> Использовать <code>useWindowDimensions()</code> внутри компонента.
+  </div>
+</div>
+
+<div class="bug">
+  <div class="bug-title"><span class="p3">P3</span> &nbsp; BUG-018: Отсутствуют Accessibility labels</div>
+  <div class="bug-file">📂 Все экраны и компоненты</div>
+  <div class="bug-desc">
+    <p>Ни один <code>TouchableOpacity</code>, <code>TextInput</code> или интерактивный элемент не содержит <code>accessibilityLabel</code>, <code>accessibilityRole</code> или <code>accessibilityHint</code>. VoiceOver (iOS) и TalkBack (Android) не смогут корректно озвучить интерфейс.</p>
+  </div>
+  <div class="bug-fix">
+    <b>Рекомендация:</b> Добавить accessibility атрибуты ко всем интерактивным элементам. Apple и Google требуют базовую доступность для публикации.
+  </div>
+</div>
+
+<div class="bug">
+  <div class="bug-title"><span class="p3">P3</span> &nbsp; BUG-019: useToastStore — setTimeout без cleanup</div>
+  <div class="bug-file">📂 src/stores/useToastStore.ts</div>
+  <div class="bug-desc">
+    <div class="code">show: (toast) => {
+  const id = `toast_${++counter}`;
+  set({ current: { ...toast, id } });
+  setTimeout(() => {                         // ← Никогда не очищается
+    set((s) => (s.current?.id === id ? { current: null } : s));
+  }, 3000);
+}</div>
+    <p>При быстрых последовательных тостах старые setTimeout продолжают работать и могут скрыть новый тост преждевременно.</p>
+  </div>
+  <div class="bug-fix">
+    <b>Рекомендация:</b> Хранить <code>timeoutId</code> и вызывать <code>clearTimeout</code> при показе нового тоста.
+  </div>
+</div>
+
+<div class="bug">
+  <div class="bug-title"><span class="p3">P3</span> &nbsp; BUG-020: Нет тестов</div>
+  <div class="bug-file">📂 Весь проект</div>
+  <div class="bug-desc">
+    <p>Ноль unit/integration тестов. Критические функции без покрытия:</p>
+    <ul>
+      <li><code>calculateDistance()</code> — Haversine формула</li>
+      <li><code>evaluateCondition()</code> — парсер условий ачивок</li>
+      <li><code>getStreakDays()</code> — подсчёт серии</li>
+      <li><code>formatDuration() / formatDistance()</code> — форматирование</li>
+      <li><code>generateId()</code> — уникальность</li>
+    </ul>
+  </div>
+  <div class="bug-fix">
+    <b>Рекомендация:</b> Добавить Jest тесты для <code>src/utils/</code> и <code>src/services/dataGeneration.ts</code> на первом этапе.
+  </div>
+</div>
+
+<!-- ==================== 7. ОЦЕНКА ПО СЛОЯМ ==================== -->
+<a name="layers"></a>
+<h1>7. Оценка по слоям</h1>
+
+<table>
+  <tr>
+    <th>Слой</th>
+    <th style="text-align:center;">Оценка</th>
+    <th>Главные проблемы</th>
+    <th>Сильные стороны</th>
+  </tr>
+  <tr>
+    <td><b>Database / Services</b></td>
+    <td style="text-align:center;" class="status-warn">7.5 / 10</td>
+    <td><code>any</code> типы, каст к Function, пустые catch</td>
+    <td>Параметризованные запросы (нет SQL injection), web fallback</td>
+  </tr>
+  <tr>
+    <td><b>Stores</b></td>
+    <td style="text-align:center;" class="status-warn">7 / 10</td>
+    <td>Challenges не persist, removeHabit не трогает БД, leaks</td>
+    <td>Чистая архитектура Zustand, правильный persist для settings</td>
+  </tr>
+  <tr>
+    <td><b>Экраны (tabs)</b></td>
+    <td style="text-align:center;" class="status-warn">8 / 10</td>
+    <td>Потеря walk data, progress overflow, hardcoded строки</td>
+    <td>Хорошая навигация, loading states, качественный UI</td>
+  </tr>
+  <tr>
+    <td><b>Компоненты UI</b></td>
+    <td style="text-align:center;" class="status-good">9 / 10</td>
+    <td>Мелкие оптимизации (useMemo)</td>
+    <td>Премиальный дизайн, GlassCard, анимации, адаптивность</td>
+  </tr>
+  <tr>
+    <td><b>Утилиты / Типы</b></td>
+    <td style="text-align:center;" class="status-warn">8.5 / 10</td>
+    <td>ID коллизии, дублирование логики дат</td>
+    <td>Правильная Haversine, чистые типы, design tokens</td>
+  </tr>
+  <tr>
+    <td><b>Тема / Adaptive</b></td>
+    <td style="text-align:center;" class="status-warn">8 / 10</td>
+    <td>Weather modifier идентичен для всех кейсов</td>
+    <td>4 динамические темы, mood overlay, premium feel</td>
+  </tr>
+  <tr>
+    <td><b>i18n</b></td>
+    <td style="text-align:center;" class="status-warn">8 / 10</td>
+    <td>Не везде используется, MoodChips hardcode RU</td>
+    <td>Полные JSON ресурсы, auto-detect языка устройства</td>
+  </tr>
+</table>
+
+<!-- ==================== 8. СИЛЬНЫЕ СТОРОНЫ ==================== -->
+<a name="strengths"></a>
+<h1>8. Сильные стороны проекта</h1>
+
+<h3>Архитектура</h3>
+<ul>
+  <li>Чистое разделение на слои: screens → stores → services → database</li>
+  <li>Expo Router с правильным file-based routing</li>
+  <li>Zustand — легковесный, без boilerplate, правильно используется</li>
+  <li>Web compatibility через platform-aware shims</li>
+</ul>
+
+<h3>Дизайн-система (премиум уровень)</h3>
+<ul>
+  <li><b>4 динамические темы</b> по времени суток (morning → day → evening → night) — как динамические обои iPhone</li>
+  <li><b>Design tokens</b>: palette, spacing, radius, shadows, typography — всё централизовано</li>
+  <li><b>AmbientBackground</b>: animated glow blobs создают living wallpaper эффект</li>
+  <li><b>GlassCard</b>, <b>AnimatedNumber</b>, <b>ConfettiOverlay</b> — детали Premium-приложения</li>
+</ul>
+
+<h3>UX-детали</h3>
+<ul>
+  <li>Haptic feedback на все ключевые действия (selection, success, light)</li>
+  <li>Typewriter greeting effect на главном экране</li>
+  <li>Week bar с визуализацией активности</li>
+  <li>Contribution graph для привычек (как GitHub)</li>
+  <li>Streak fire animation с pulse + rotation</li>
+  <li>Toast notifications для ачивок</li>
+</ul>
+
+<h3>Безопасность</h3>
+<ul>
+  <li>Параметризованные SQL запросы (нет SQL injection)</li>
+  <li>Нет hardcoded API ключей</li>
+  <li>Корректный запрос permissions перед использованием</li>
+  <li>Open-Meteo API (бесплатный, без ключа) — нет секретов</li>
+</ul>
+
+<!-- ==================== 9. ПЛАН ДЕЙСТВИЙ ==================== -->
+<a name="action"></a>
+<h1>9. План действий</h1>
+
+<h2>Фаза 1 — До релиза (P0 + критичные P1)</h2>
+<table>
+  <tr><th>#</th><th>Задача</th><th>Bug ID</th><th>Усилие</th></tr>
+  <tr><td>1</td><td>Сохранять route прогулки в persistent storage</td><td>BUG-001</td><td>~4 часа</td></tr>
+  <tr><td>2</td><td>Заменить <code>generateId()</code> на crypto.randomUUID()</td><td>BUG-002</td><td>~30 мин</td></tr>
+  <tr><td>3</td><td>Добавить cleanup в useEffect (AbortController, mounted flag)</td><td>BUG-004</td><td>~2 часа</td></tr>
+  <tr><td>4</td><td>Логирование + Toast во всех catch блоках</td><td>BUG-003</td><td>~1 час</td></tr>
+  <tr><td>5</td><td>Добавить persist для useChallengeStore</td><td>BUG-009</td><td>~30 мин</td></tr>
+  <tr><td>6</td><td>Исправить removeHabit — удалять из SQLite</td><td>BUG-010</td><td>~30 мин</td></tr>
+</table>
+
+<h2>Фаза 2 — Полировка (P1 + P2)</h2>
+<table>
+  <tr><th>#</th><th>Задача</th><th>Bug ID</th><th>Усилие</th></tr>
+  <tr><td>7</td><td>Исправить MoodChips — использовать i18n</td><td>BUG-005</td><td>~15 мин</td></tr>
+  <tr><td>8</td><td>Добавить единицу в formatDuration</td><td>BUG-006</td><td>~15 мин</td></tr>
+  <tr><td>9</td><td>Ограничить sleep progress bar до 100%</td><td>BUG-007</td><td>~5 мин</td></tr>
+  <tr><td>10</td><td>Разнообразить weather modifiers</td><td>BUG-008</td><td>~1 час</td></tr>
+  <tr><td>11</td><td>Заменить все any типы на proper interfaces</td><td>BUG-011</td><td>~2 часа</td></tr>
+  <tr><td>12</td><td>Перенести hardcoded строки в i18n</td><td>BUG-012</td><td>~1 час</td></tr>
+  <tr><td>13</td><td>Типизировать DB через SQLiteDatabase</td><td>BUG-013</td><td>~1 час</td></tr>
+</table>
+
+<h2>Фаза 3 — Качество (P2 + P3)</h2>
+<table>
+  <tr><th>#</th><th>Задача</th><th>Bug ID</th><th>Усилие</th></tr>
+  <tr><td>14</td><td>Улучшить evaluateCondition + warning</td><td>BUG-014</td><td>~30 мин</td></tr>
+  <tr><td>15</td><td>Устранить дублирование логики дат</td><td>BUG-015</td><td>~30 мин</td></tr>
+  <tr><td>16</td><td>Мемоизация ContributionGraph</td><td>BUG-016</td><td>~15 мин</td></tr>
+  <tr><td>17</td><td>useWindowDimensions в AmbientBackground</td><td>BUG-017</td><td>~15 мин</td></tr>
+  <tr><td>18</td><td>Accessibility labels на все кнопки</td><td>BUG-018</td><td>~3 часа</td></tr>
+  <tr><td>19</td><td>Toast cleanup (clearTimeout)</td><td>BUG-019</td><td>~15 мин</td></tr>
+  <tr><td>20</td><td>Написать unit-тесты для utils + services</td><td>BUG-020</td><td>~4 часа</td></tr>
+</table>
+
+<br>
+<div class="footer">
+  <p>Waygo QA Report &nbsp;|&nbsp; 25 марта 2026 &nbsp;|&nbsp; Senior QA Engineer &nbsp;|&nbsp; Конфиденциально</p>
+</div>
+
+</body>
+</html>

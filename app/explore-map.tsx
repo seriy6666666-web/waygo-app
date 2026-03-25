@@ -43,7 +43,9 @@ export default function ExploreMapScreen() {
             parsed.push(pts);
             totalPts += pts.length;
           }
-        } catch {}
+        } catch (e) {
+          console.warn('Failed to parse route:', e);
+        }
       }
       setRoutes(parsed);
       setStats({ totalRoutes: parsed.length, totalPoints: totalPts });

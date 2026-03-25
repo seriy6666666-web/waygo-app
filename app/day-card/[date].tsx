@@ -49,7 +49,9 @@ export default function DayCardScreen() {
       if (uri && (await Sharing.isAvailableAsync())) {
         await Sharing.shareAsync(uri, { mimeType: 'image/png', dialogTitle: 'Waygo Day Card' });
       }
-    } catch {}
+    } catch (e) {
+      console.warn('Share failed:', e);
+    }
   };
 
   const totalDistanceKm = walks.reduce((a: number, w: any) => a + (w.distance_m || 0), 0) / 1000;

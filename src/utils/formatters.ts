@@ -1,9 +1,9 @@
-export function formatDuration(sec: number): string {
+export function formatDuration(sec: number, locale: 'ru' | 'en' = 'ru'): string {
   const min = Math.floor(sec / 60);
-  if (min < 60) return `${min}`;
+  if (min < 60) return locale === 'ru' ? `${min} мин` : `${min} min`;
   const h = Math.floor(min / 60);
   const m = min % 60;
-  return `${h}ч ${m}м`;
+  return locale === 'ru' ? `${h}ч ${m}м` : `${h}h ${m}m`;
 }
 
 export function formatDistance(meters: number): string {

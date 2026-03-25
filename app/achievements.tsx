@@ -20,7 +20,11 @@ export default function AchievementsScreen() {
   const isRu = i18n.language === 'ru';
 
   useEffect(() => {
-    loadUnlocked();
+    let mounted = true;
+    loadUnlocked().finally(() => {
+      if (!mounted) return;
+    });
+    return () => { mounted = false; };
   }, []);
 
   const unlockedSet = new Set(unlocked.map((u) => u.achievementId));

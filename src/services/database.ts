@@ -298,6 +298,13 @@ export async function insertHabit(habit: {
   );
 }
 
+export async function deleteHabit(id: string) {
+  if (isWeb) return;
+  const database = await getDB();
+  await database.runAsync(`DELETE FROM habit_logs WHERE habit_id = ?`, [id]);
+  await database.runAsync(`DELETE FROM habits WHERE id = ?`, [id]);
+}
+
 export async function toggleHabitLog(habitId: string, date: string, done: boolean) {
   if (isWeb) return;
   const database = await getDB();

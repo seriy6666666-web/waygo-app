@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { insertHabit, toggleHabitLog } from '../services/database';
+import { deleteHabit as deleteHabitDB, insertHabit, toggleHabitLog } from '../services/database';
 import type { Habit } from '../types';
 import { getTodayDate } from '../utils/date';
 import { hapticLight, hapticSuccess } from '../utils/haptics';
@@ -10,7 +10,7 @@ interface HabitState {
   todayLogs: Record<string, boolean>; // habitId -> done
 
   addHabit: (habit: Habit) => Promise<void>;
-  removeHabit: (id: string) => void;
+  removeHabit: (id: string) => Promise<void>;
   toggle: (habitId: string) => Promise<void>;
   setHabits: (habits: Habit[]) => void;
   setTodayLogs: (logs: Record<string, boolean>) => void;
@@ -32,7 +32,8 @@ export const useHabitStore = create<HabitState>((set, get) => ({
     set((s) => ({ habits: [...s.habits, habit] }));
   },
 
-  removeHabit: (id) => {
+  removeHabit: async (id) => {
+    await deleteHabitDB(id);
     set((s) => ({
       habits: s.habits.filter((h) => h.id !== id),
       todayLogs: Object.fromEntries(

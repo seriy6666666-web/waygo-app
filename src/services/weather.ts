@@ -15,7 +15,8 @@ export async function fetchWeather(lat: number, lng: number): Promise<WeatherDat
       bucket: getWeatherBucket(code),
       temperature,
     };
-  } catch {
+  } catch (e) {
+    console.warn('Weather fetch failed:', e);
     return null;
   }
 }

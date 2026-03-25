@@ -31,5 +31,9 @@ export function formatDateRu(date: Date): string {
 }
 
 export function generateId(): string {
-  return Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+  if (typeof globalThis.crypto?.randomUUID === 'function') {
+    return globalThis.crypto.randomUUID();
+  }
+  // Fallback: timestamp + longer random
+  return Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 10) + Math.random().toString(36).slice(2, 6);
 }

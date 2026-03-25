@@ -14,17 +14,24 @@ interface ToastState {
 }
 
 let counter = 0;
+let activeTimeoutId: ReturnType<typeof setTimeout> | null = null;
 
 export const useToastStore = create<ToastState>((set) => ({
   current: null,
 
   show: (toast) => {
+    if (activeTimeoutId) clearTimeout(activeTimeoutId);
     const id = `toast_${++counter}`;
     set({ current: { ...toast, id } });
-    setTimeout(() => {
+    activeTimeoutId = setTimeout(() => {
       set((s) => (s.current?.id === id ? { current: null } : s));
+      activeTimeoutId = null;
     }, 3000);
   },
 
-  dismiss: () => set({ current: null }),
+  dismiss: () => {
+    if (activeTimeoutId) clearTimeout(activeTimeoutId);
+    activeTimeoutId = null;
+    set({ current: null });
+  },
 }));
