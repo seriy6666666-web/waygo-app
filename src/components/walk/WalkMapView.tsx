@@ -1,26 +1,8 @@
-import React from 'react';
-import { Platform, StyleSheet, Text, View } from 'react-native';
-import { MAP_STYLE_DARK, MAP_STYLE_EVENING, MAP_STYLE_LIGHT, MAP_STYLE_MORNING } from '../../constants/mapStyles';
+import React, { useMemo } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 import { useThemeStore } from '../../stores/useThemeStore';
-import type { RoutePoint, TimeBucket } from '../../types';
-import { MapErrorBoundary } from '../ui/MapErrorBoundary';
-
-const MAP_STYLES: Record<TimeBucket, object[]> = {
-  morning: MAP_STYLE_MORNING,
-  day: MAP_STYLE_LIGHT,
-  evening: MAP_STYLE_EVENING,
-  night: MAP_STYLE_DARK,
-};
-
-let MapViewComponent: any = null;
-let Polyline: any = null;
-let PROVIDER_GOOGLE: any = null;
-if (Platform.OS !== 'web') {
-  const maps = require('react-native-maps');
-  MapViewComponent = maps.default;
-  Polyline = maps.Polyline;
-  PROVIDER_GOOGLE = maps.PROVIDER_GOOGLE;
-}
+import type { RoutePoint } from '../../types';
+import { OSMMapView } from '../ui/OSMMapView';
 
 interface Props {
   route: RoutePoint[];
@@ -30,50 +12,37 @@ interface Props {
 
 export function WalkMapView({ route, isLive = false, style }: Props) {
   const colors = useThemeStore((s) => s.colors);
-  const timeBucket = useThemeStore((s) => s.timeBucket);
 
   const coords = route.map((p) => ({ latitude: p.lat, longitude: p.lng }));
   const lastPoint = coords[coords.length - 1];
 
-  // Calculate region to fit all points
   const region = coords.length > 0
-    ? getRegion(coords)
+    ? (isLive && lastPoint
+        ? { ...lastPoint, latitudeDelta: 0.005, longitudeDelta: 0.005 }
+        : getRegion(coords))
     : { latitude: 55.75, longitude: 37.62, latitudeDelta: 0.01, longitudeDelta: 0.01 };
+
+  const polylines = useMemo(() => {
+    if (coords.length < 2) return [];
+    return [{ coordinates: coords, color: colors.accent, width: 4 }];
+  }, [coords, colors.accent]);
 
   return (
     <View style={[styles.container, style]}>
-      {Platform.OS === 'web' || !MapViewComponent ? (
+      {coords.length === 0 && !isLive ? (
         <View style={[styles.map, { backgroundColor: colors.surfaceCard, justifyContent: 'center', alignItems: 'center' }]}>
-          <Text style={{ color: colors.textSecondary, fontSize: 14 }}>Map (native only)</Text>
+          <Text style={{ color: colors.textSecondary, fontSize: 14 }}>No route data</Text>
         </View>
       ) : (
-      <MapErrorBoundary>
-      <MapViewComponent
-        style={styles.map}
-        provider={Platform.OS === 'android' ? PROVIDER_GOOGLE : undefined}
-        customMapStyle={MAP_STYLES[timeBucket]}
-        region={isLive && lastPoint ? { ...lastPoint, latitudeDelta: 0.005, longitudeDelta: 0.005 } : region}
-        showsUserLocation={isLive}
-        showsMyLocationButton={false}
-        showsCompass={false}
-        scrollEnabled={!isLive}
-        zoomEnabled={!isLive}
-        rotateEnabled={false}
-        pitchEnabled={false}
-        loadingEnabled
-        loadingBackgroundColor={colors.bgPrimary}
-      >
-        {coords.length >= 2 && (
-          <Polyline
-            coordinates={coords}
-            strokeColor={colors.accent}
-            strokeWidth={4}
-            lineCap="round"
-            lineJoin="round"
-          />
-        )}
-      </MapViewComponent>
-      </MapErrorBoundary>
+        <OSMMapView
+          region={region}
+          polylines={polylines}
+          showUserLocation={isLive}
+          scrollEnabled={!isLive}
+          zoomEnabled={!isLive}
+          accentColor={colors.accent}
+          style={styles.map}
+        />
       )}
     </View>
   );

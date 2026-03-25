@@ -1,26 +1,14 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Platform, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeArea } from '../src/components/layout/SafeArea';
-import { MapErrorBoundary } from '../src/components/ui/MapErrorBoundary';
+import { OSMMapView } from '../src/components/ui/OSMMapView';
 import { getAllWalkRoutes } from '../src/services/database';
 import { useThemeStore } from '../src/stores/useThemeStore';
 import { spacing, typography } from '../src/theme/tokens';
 import type { RoutePoint } from '../src/types';
-
-let MapView: any = null;
-let Circle: any = null;
-let PolylineComp: any = null;
-let PROVIDER_GOOGLE: any = null;
-if (Platform.OS !== 'web') {
-  const maps = require('react-native-maps');
-  MapView = maps.default;
-  Circle = maps.Circle;
-  PolylineComp = maps.Polyline;
-  PROVIDER_GOOGLE = maps.PROVIDER_GOOGLE;
-}
 
 export default function ExploreMapScreen() {
   const { i18n } = useTranslation();
@@ -63,6 +51,26 @@ export default function ExploreMapScreen() {
       }
     : { latitude: 55.75, longitude: 37.62, latitudeDelta: 0.05, longitudeDelta: 0.05 };
 
+  const polylines = useMemo(() =>
+    routes.map((route) => ({
+      coordinates: route.map((p) => ({ latitude: p.lat, longitude: p.lng })),
+      color: colors.accent,
+      width: 3,
+    })),
+    [routes, colors.accent],
+  );
+
+  const fogCircles = useMemo(() =>
+    routes.flatMap((route) =>
+      route.filter((_, i) => i % 3 === 0).map((pt) => ({
+        center: { latitude: pt.lat, longitude: pt.lng },
+        radius: 50,
+        fillColor: colors.accent,
+      })),
+    ),
+    [routes, colors.accent],
+  );
+
   return (
     <SafeArea>
       {/* Header */}
@@ -83,50 +91,14 @@ export default function ExploreMapScreen() {
 
       {/* Map */}
       <View style={styles.mapContainer}>
-        {Platform.OS === 'web' || !MapView ? (
-          <View style={[styles.map, { backgroundColor: colors.surfaceCard, justifyContent: 'center', alignItems: 'center' }]}>
-            <Text style={{ color: colors.textSecondary, fontSize: 14 }}>Map (native only)</Text>
-          </View>
-        ) : (
-        <MapErrorBoundary>
-        <MapView
+        <OSMMapView
+          region={center}
+          polylines={polylines}
+          circles={fogCircles}
+          showUserLocation
+          accentColor={colors.accent}
           style={styles.map}
-          provider={Platform.OS === 'android' ? PROVIDER_GOOGLE : undefined}
-          initialRegion={center}
-          showsUserLocation
-          showsMyLocationButton={false}
-          loadingEnabled
-          loadingBackgroundColor={colors.bgPrimary}
-        >
-          {/* Fog of War: reveal circles along each route */}
-          {routes.map((route, rIdx) =>
-            route
-              .filter((_, i) => i % 3 === 0)
-              .map((pt, pIdx) => (
-                <Circle
-                  key={`${rIdx}-${pIdx}`}
-                  center={{ latitude: pt.lat, longitude: pt.lng }}
-                  radius={50}
-                  strokeWidth={0}
-                  fillColor={colors.accent + '18'}
-                />
-              ))
-          )}
-
-          {/* Route polylines */}
-          {routes.map((route, idx) => (
-            <PolylineComp
-              key={`route-${idx}`}
-              coordinates={route.map((p) => ({ latitude: p.lat, longitude: p.lng }))}
-              strokeColor={colors.accent}
-              strokeWidth={3}
-              lineCap="round"
-              lineJoin="round"
-            />
-          ))}
-        </MapView>
-        </MapErrorBoundary>
-        )}
+        />
 
         {/* Stats overlay */}
         <View style={[styles.statsOverlay, { backgroundColor: colors.surfaceCard + 'E0' }]}>

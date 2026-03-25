@@ -66,12 +66,16 @@ export default function WalkScreen() {
         const tracker = await startLocationTracking((lat, lng) => {
           addRoutePoint({ lat, lng, ts: Date.now() });
         });
-        locationRef.current = tracker;
+        if (tracker) {
+          locationRef.current = tracker;
+        } else {
+          console.warn('Foreground location tracking failed to start');
+        }
 
         // Also start background tracking for when app is minimized
         startBackgroundTracking((lat, lng) => {
           addRoutePoint({ lat, lng, ts: Date.now() });
-        });
+        }).catch(() => {});
       })();
     } else {
       locationRef.current?.remove();
