@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Animated, {
-  FadeIn,
-  LinearTransition,
+    FadeIn,
+    LinearTransition,
 } from 'react-native-reanimated';
 import { getSleepBetween } from '../../services/database';
 import { useThemeStore } from '../../stores/useThemeStore';

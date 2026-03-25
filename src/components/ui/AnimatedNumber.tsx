@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Platform, StyleProp, Text, TextStyle } from 'react-native';
-import Animated, {
+import { StyleProp, Text, TextStyle } from 'react-native';
+import {
     runOnJS,
     useAnimatedReaction,
     useSharedValue,

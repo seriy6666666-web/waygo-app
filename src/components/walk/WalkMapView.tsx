@@ -2,8 +2,7 @@ import React from 'react';
 import { Platform, StyleSheet, Text, View } from 'react-native';
 import { MAP_STYLE_DARK, MAP_STYLE_EVENING, MAP_STYLE_LIGHT, MAP_STYLE_MORNING } from '../../constants/mapStyles';
 import { useThemeStore } from '../../stores/useThemeStore';
-import type { TimeBucket } from '../../types';
-import type { RoutePoint } from '../../types';
+import type { RoutePoint, TimeBucket } from '../../types';
 import { MapErrorBoundary } from '../ui/MapErrorBoundary';
 
 const MAP_STYLES: Record<TimeBucket, object[]> = {

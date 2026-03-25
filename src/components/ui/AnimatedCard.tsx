@@ -1,6 +1,6 @@
 import React from 'react';
 import { Platform } from 'react-native';
-import Animated, { FadeInDown, FadeInUp, ZoomIn } from 'react-native-reanimated';
+import Animated, { FadeInDown, FadeInUp } from 'react-native-reanimated';
 
 interface AnimatedCardProps {
   children: React.ReactNode;
